@@ -65,6 +65,51 @@ Why these matter:
 
 Plugin formats are future decisions, not current commitments. These sources are included because distribution and modulation capabilities may eventually influence architecture.
 
+## Anti-Aliasing And Oscillator Quality
+
+- Välimäki, V. and Franck, A., "Oscillator and Filter Algorithms for Virtual Analog Synthesis" (general reference for anti-aliasing approaches)
+- Esqueda, F. et al., "Aliasing Reduction in Soft-Clipping Algorithms" (oversampling for nonlinear processing)
+
+Why these matter:
+
+Anti-aliasing is a core quality requirement for Digital Synth. These references cover the conceptual foundations of band-limited oscillators, PolyBLEP, and oversampling strategies discussed in the advanced anti-aliasing knowledge base document.
+
+## Granular Synthesis
+
+- Roads, Curtis, "Microsound" (foundational text on granular synthesis theory)
+- Truax, Barry, "Real-Time Granular Synthesis with a Digital Signal Processor" (historical context for real-time granular processing)
+
+Why these matter:
+
+These are the standard conceptual references for understanding grain-based synthesis at the design level.
+
+## Spectral Processing
+
+- Dolson, Mark, "The Phase Vocoder: A Tutorial" (conceptual foundation for spectral time-pitch processing)
+- Serra, Xavier, "A System for Sound Analysis/Transformation/Synthesis based on a Deterministic plus Stochastic Decomposition" (spectral analysis and resynthesis)
+
+Why these matter:
+
+Spectral processing concepts underpin both the visualization layer (spectrum analysis) and future spectral effects discussed in the knowledge base.
+
+## Physical Modeling
+
+- Smith, Julius O., "Physical Audio Signal Processing" (Stanford CCRMA, comprehensive physical modeling reference)
+- Karplus, K. and Strong, A., "Digital Synthesis of Plucked-String and Drum Timbres" (original Karplus-Strong paper)
+
+Why these matter:
+
+These are the foundational references for the physical modeling concepts documented in the synthesis methods knowledge base.
+
+## Vocoding And Formant Synthesis
+
+- Dudley, Homer, "The Vocoder" (historical origin of the vocoder concept)
+- Klatt, Dennis, "Software for a Cascade/Parallel Formant Synthesizer" (foundational formant synthesis reference)
+
+Why these matter:
+
+These references provide historical and theoretical context for the vocoding and formant synthesis concepts in the knowledge base.
+
 ## Research Policy
 
 When adding future research:

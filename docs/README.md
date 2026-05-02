@@ -16,16 +16,55 @@ The knowledge base is organized around the questions a synthesizer designer must
 
 Start here:
 
+### Core Architecture And Fundamentals
+
 1. [Architecture](architecture.md)
 2. [Digital audio fundamentals](knowledge-base/digital-audio-fundamentals.md)
-3. [Oscillators and sound sources](knowledge-base/oscillators-and-sound-sources.md)
-4. [Filters and tone shaping](knowledge-base/filters-and-tone-shaping.md)
-5. [Modulation and envelopes](knowledge-base/modulation-and-envelopes.md)
-6. [Voices and performance control](knowledge-base/voices-and-performance-control.md)
-7. [Effects, mixing, and output](knowledge-base/effects-mixing-and-output.md)
-8. [Synthesis methods](knowledge-base/synthesis-methods.md)
-9. [Glossary](knowledge-base/glossary.md)
-10. [Research sources](knowledge-base/research-sources.md)
+3. [Control and audio rate processing](knowledge-base/control-and-audio-rate-processing.md)
+4. [Parameter design guidance](knowledge-base/parameter-design-guidance.md)
+
+### Subtractive Synthesis Core
+
+5. [Oscillators and sound sources](knowledge-base/oscillators-and-sound-sources.md)
+6. [Filters and tone shaping](knowledge-base/filters-and-tone-shaping.md)
+7. [Modulation and envelopes](knowledge-base/modulation-and-envelopes.md)
+8. [Voices and performance control](knowledge-base/voices-and-performance-control.md)
+
+### Effects And Spatial Processing
+
+9. [Effects, mixing, and output](knowledge-base/effects-mixing-and-output.md)
+10. [Stereo and spatial processing](knowledge-base/stereo-and-spatial-processing.md)
+
+### Instrument Features
+
+11. [Arpeggiator and sequencer design](knowledge-base/arpeggiator-and-sequencer-design.md)
+12. [Preset management](knowledge-base/preset-management.md)
+
+### Synthesis Methods
+
+13. [Synthesis methods overview](knowledge-base/synthesis-methods.md)
+14. [FM synthesis deep dive](knowledge-base/fm-synthesis-deep-dive.md)
+15. [Wavetable synthesis deep dive](knowledge-base/wavetable-synthesis-deep-dive.md)
+16. [Granular synthesis deep dive](knowledge-base/granular-synthesis-deep-dive.md)
+
+### Advanced Topics
+
+17. [Advanced anti-aliasing](knowledge-base/advanced-anti-aliasing.md)
+18. [Ring modulation and AM](knowledge-base/ring-modulation-and-am.md)
+19. [Noise types and modulation](knowledge-base/noise-types-and-modulation.md)
+20. [Bit reduction and lo-fi effects](knowledge-base/bit-reduction-and-lofi-effects.md)
+21. [Spectral processing](knowledge-base/spectral-processing.md)
+22. [Vocoding and formant synthesis](knowledge-base/vocoding-and-formant-synthesis.md)
+23. [Convolution concepts](knowledge-base/convolution-concepts.md)
+
+### Reference
+
+24. [Glossary](knowledge-base/glossary.md)
+25. [Research sources](knowledge-base/research-sources.md)
+
+### Project Planning
+
+26. [Development roadmap](development-roadmap.md)
 
 ## Knowledge Base Goals
 

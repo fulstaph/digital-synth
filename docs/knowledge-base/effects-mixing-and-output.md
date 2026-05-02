@@ -238,6 +238,92 @@ Design implication:
 
 The first synth can use a simple insert chain, but future architecture should allow send-style thinking for ambience.
 
+## Sidechain Concepts
+
+Sidechaining uses one signal's amplitude to control processing applied to a different signal. The control signal, called the sidechain input, is analyzed for its level. That level then modulates a parameter of a processor that acts on the main signal.
+
+The most common application is sidechain compression. A rhythmic source such as a kick drum feeds the sidechain input of a compressor placed on a bass or pad. Each time the kick hits, the compressor reduces the level of the bass, creating a pumping rhythm that clears space in the mix and adds rhythmic movement.
+
+Why it matters:
+
+Sidechain behavior creates rhythmic interaction between sounds. It produces ducking effects that improve mix clarity and add groove. Without sidechaining, sustained sounds compete with transient sounds for the same frequency space, causing masking.
+
+In a synthesizer context, internal sidechaining can use one voice layer to duck another, or use the amplitude envelope of one oscillator to shape how an effect behaves. A sub oscillator could duck slightly when the main oscillator is loud, or an effects processor could open up based on envelope activity from another layer.
+
+Controls typically exposed include the sidechain source selector, threshold, ratio, attack time, release time, and the amount of gain reduction applied.
+
+Design implication:
+
+Sidechain should be designed as a routing option rather than a fixed behavior. Treating it as a modulation source routed to a dynamics processor allows creative use beyond basic ducking, including rhythmic gating, envelope following, and frequency-dependent ducking.
+
+## Multiband Processing
+
+Multiband processing splits a signal into separate frequency bands and processes each band independently. The signal is divided by crossover filters into typically two to four regions such as low, mid, and high. Each band then passes through its own processor before the bands are recombined.
+
+Why it matters:
+
+Full-spectrum processing forces compromises. Heavy distortion across the entire signal muddies the bass. Broadband compression causes the bass to pump when the high end is loud. Multiband processing avoids these problems by isolating frequency regions.
+
+With multiband processing, distortion can be applied aggressively to the midrange while keeping the low end clean. Compression can tighten the high frequencies without causing low-frequency pumping. Different saturation characters can color different parts of the spectrum independently.
+
+Controls typically include crossover frequencies that define band boundaries, and per-band controls for whatever processor is applied. Gain controls per band allow rebalancing after processing.
+
+Mistakes to avoid include setting crossover points in musically sensitive regions where they create audible artifacts, and over-processing individual bands so the recombined signal sounds disjointed rather than cohesive.
+
+Design implication:
+
+Multiband processing adds significant complexity and CPU cost because each band requires its own processing chain. It belongs in the effects chain as an advanced option rather than a default. The initial architecture should support it as a future addition without requiring restructuring.
+
+## Transient Shaping
+
+Transient shaping emphasizes or reduces the attack portion of a signal independently from the sustain. A transient shaper detects the onset of a sound, the brief moment when the waveform rises sharply, and either boosts or attenuates the level during that attack window while leaving the sustained portion unchanged.
+
+Why it matters:
+
+Transient shaping controls the punch and presence of a sound without changing its overall level or sustain character. Boosted transients make plucks, percussion, and key sounds more defined and forward in the mix. Reduced transients make sounds softer and more ambient without reducing volume, which is useful for pushing sounds further back in a mix or creating pad-like textures from percussive sources.
+
+Unlike compression, which reacts to level and reshapes the entire dynamic envelope, transient shaping targets only the attack-to-sustain relationship. This makes it a more surgical tool for controlling how a sound feels in time.
+
+Controls typically include an attack knob that boosts or cuts the transient, a sustain knob that boosts or cuts the body of the sound, and sometimes a detection sensitivity control.
+
+Design implication:
+
+Transient shaping is a useful addition to the effects chain, especially for percussive patches, plucks, and any sound where attack definition matters. It is relatively low in CPU cost compared to multiband processing and adds meaningful tonal control with simple parameters.
+
+## Parallel Processing
+
+Parallel processing blends the original dry signal with a heavily processed wet version at a controlled ratio, rather than passing the full signal through the processor. The dry path preserves the character and dynamics of the original. The wet path contributes qualities from extreme processing that would be unmusical if applied directly to the entire signal.
+
+Common applications include parallel compression, where a heavily compressed copy is mixed with the uncompressed original to add density and sustain without destroying transients. Parallel saturation adds harmonic richness without flattening the dynamics of the source. Parallel reverb adds spatial depth without washing out the direct signal.
+
+Why it matters:
+
+Parallel processing retains the natural character of the original signal while gaining the tonal and dynamic qualities of aggressive processing. Direct heavy compression kills dynamics. Direct heavy distortion destroys clarity. Blending those processed signals in parallel preserves what matters about the original while adding what the processing contributes.
+
+The distinction between parallel processing and a simple wet/dry mix is subtle but important. A wet/dry mix on an insert effect reduces the processed signal's contribution. Dedicated parallel routing allows separate gain staging, EQ, and further processing on the parallel path before blending.
+
+Design implication:
+
+Parallel processing is often achieved through wet/dry mix controls on individual effects, but dedicated parallel routing provides more flexibility. The architecture should allow effects to operate in parallel paths where needed, not only in a serial insert chain.
+
+## Per-Voice Versus Global Effects
+
+Some effects make musical sense applied to each voice independently. Per-voice distortion gives each note its own harmonic color based on that note's pitch and level. Per-voice filtering shapes each note's spectrum individually, so low notes and high notes can respond differently.
+
+Other effects make sense applied to the combined output of all voices. Reverb, delay, and chorus typically work better as global effects because they create a shared spatial environment. Applying separate reverb to each voice would sound fragmented rather than cohesive, and the CPU cost would be extreme.
+
+Why it matters:
+
+Per-voice effects produce different musical results than global effects. Distortion on individual voices before mixing sounds different from the same distortion applied to the summed mix of all voices. Individual voice distortion preserves intermodulation separation between notes. Global distortion introduces intermodulation between all sounding notes, which can be desirable or undesirable depending on the musical context.
+
+Per-voice effects are more expensive because processing multiplies by voice count. Eight voices with per-voice distortion require eight distortion instances rather than one.
+
+Controls should clearly indicate whether an effect operates per-voice or globally, so users understand both the sonic and performance implications of their choices.
+
+Design implication:
+
+The architecture should distinguish per-voice processing from global processing at a structural level. Initial effects can all be global to keep CPU cost predictable. Per-voice effects can be introduced as an advanced feature once the voice architecture is stable and performance budgets are understood.
+
 ## Wet And Dry Mix
 
 Dry signal is the original signal. Wet signal is the processed effect signal.

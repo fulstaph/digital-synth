@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+  <defs>
+    <!-- Arrowhead marker -->
+    <marker id="arrow" viewBox="0 0 10 6" refX="10" refY="3"
+      markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#6b7280"/>
+    </marker>
+    <!-- Red arrowhead for feedback -->
+    <marker id="arrow-red" viewBox="0 0 10 6" refX="10" refY="3"
+      markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+
+  <style>
+    text { font-family: sans-serif; fill: #374151; }
+    .algo-title { font-size: 13px; font-weight: bold; text-anchor: middle; fill: #1f2937; }
+    .op-label { font-size: 11px; text-anchor: middle; dominant-baseline: central; fill: #374151; }
+    .out-label { font-size: 11px; text-anchor: middle; fill: #374151; font-weight: bold; }
+    .modulator { fill: #eff6ff; stroke: #2563eb; stroke-width: 1.5; }
+    .carrier { fill: #dbeafe; stroke: #2563eb; stroke-width: 1.5; }
+    .arrow-line { stroke: #6b7280; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+    .feedback-line { stroke: #dc2626; stroke-width: 1.5; fill: none; stroke-dasharray: 5,3; marker-end: url(#arrow-red); }
+    .cell-border { stroke: #e5e7eb; stroke-width: 0.5; fill: none; }
+    .out-triangle { fill: #f3f4f6; stroke: #6b7280; stroke-width: 1.5; }
+    .sum-circle { fill: #f3f4f6; stroke: #6b7280; stroke-width: 1.5; }
+    .sum-text { font-size: 14px; text-anchor: middle; dominant-baseline: central; fill: #6b7280; font-weight: bold; }
+  </style>
+
+  <!-- Cell borders -->
+  <rect x="5" y="5" width="340" height="190" class="cell-border"/>
+  <rect x="355" y="5" width="340" height="190" class="cell-border"/>
+  <rect x="5" y="205" width="340" height="190" class="cell-border"/>
+  <rect x="355" y="205" width="340" height="190" class="cell-border"/>
+
+  <!-- ========== ALGORITHM 1: Serial Chain (top-left) ========== -->
+  <!-- Cell: x=5..345, y=5..195 | center x=175, y=100 -->
+  <text x="175" y="28" class="algo-title">Serial (3-op chain)</text>
+
+  <!-- OP3 (modulator) -->
+  <circle cx="65" cy="105" r="25" class="modulator"/>
+  <text x="65" y="105" class="op-label">OP 3</text>
+
+  <!-- Arrow OP3 -> OP2 -->
+  <line x1="90" y1="105" x2="120" y2="105" class="arrow-line"/>
+
+  <!-- OP2 (modulator) -->
+  <circle cx="150" cy="105" r="25" class="modulator"/>
+  <text x="150" y="105" class="op-label">OP 2</text>
+
+  <!-- Arrow OP2 -> OP1 -->
+  <line x1="175" y1="105" x2="205" y2="105" class="arrow-line"/>
+
+  <!-- OP1 (carrier) -->
+  <circle cx="235" cy="105" r="25" class="carrier"/>
+  <text x="235" y="105" class="op-label">OP 1</text>
+
+  <!-- Arrow OP1 -> Out -->
+  <line x1="260" y1="105" x2="290" y2="105" class="arrow-line"/>
+
+  <!-- Output triangle -->
+  <polygon points="300,90 325,105 300,120" class="out-triangle"/>
+  <text x="310" y="135" class="out-label">Out</text>
+
+  <!-- ========== ALGORITHM 2: Parallel Pairs (top-right) ========== -->
+  <!-- Cell: x=355..695, y=5..195 | center x=525 -->
+  <text x="525" y="28" class="algo-title">Parallel Pairs</text>
+
+  <!-- Pair 1: OP2 -> OP1 (upper) -->
+  <circle cx="430" cy="75" r="25" class="modulator"/>
+  <text x="430" y="75" class="op-label">OP 2</text>
+  <line x1="455" y1="75" x2="485" y2="75" class="arrow-line"/>
+  <circle cx="515" cy="75" r="25" class="carrier"/>
+  <text x="515" y="75" class="op-label">OP 1</text>
+
+  <!-- Pair 2: OP4 -> OP3 (lower) -->
+  <circle cx="430" cy="140" r="25" class="modulator"/>
+  <text x="430" y="140" class="op-label">OP 4</text>
+  <line x1="455" y1="140" x2="485" y2="140" class="arrow-line"/>
+  <circle cx="515" cy="140" r="25" class="carrier"/>
+  <text x="515" y="140" class="op-label">OP 3</text>
+
+  <!-- Sum lines from both carriers to sum node -->
+  <line x1="540" y1="75" x2="580" y2="105" class="arrow-line"/>
+  <line x1="540" y1="140" x2="580" y2="110" class="arrow-line"/>
+
+  <!-- Sum circle -->
+  <circle cx="590" cy="107" r="12" class="sum-circle"/>
+  <text x="590" y="108" class="sum-text">+</text>
+
+  <!-- Arrow sum -> Out -->
+  <line x1="602" y1="107" x2="632" y2="107" class="arrow-line"/>
+
+  <!-- Output triangle -->
+  <polygon points="642,92 667,107 642,122" class="out-triangle"/>
+  <text x="652" y="138" class="out-label">Out</text>
+
+  <!-- ========== ALGORITHM 3: Branching (bottom-left) ========== -->
+  <!-- Cell: x=5..345, y=205..395 | center x=175 -->
+  <text x="175" y="228" class="algo-title">One Modulator, Two Carriers</text>
+
+  <!-- OP3 (modulator, feeds both) -->
+  <circle cx="70" cy="310" r="25" class="modulator"/>
+  <text x="70" y="310" class="op-label">OP 3</text>
+
+  <!-- Arrow OP3 -> OP1 (upper carrier) -->
+  <line x1="95" y1="298" x2="130" y2="278" class="arrow-line"/>
+
+  <!-- Arrow OP3 -> OP2 (lower carrier) -->
+  <line x1="95" y1="322" x2="130" y2="342" class="arrow-line"/>
+
+  <!-- OP1 (carrier, upper) -->
+  <circle cx="160" cy="270" r="25" class="carrier"/>
+  <text x="160" y="270" class="op-label">OP 1</text>
+
+  <!-- OP2 (carrier, lower) -->
+  <circle cx="160" cy="350" r="25" class="carrier"/>
+  <text x="160" y="350" class="op-label">OP 2</text>
+
+  <!-- Sum lines from both carriers -->
+  <line x1="185" y1="270" x2="230" y2="305" class="arrow-line"/>
+  <line x1="185" y1="350" x2="230" y2="315" class="arrow-line"/>
+
+  <!-- Sum circle -->
+  <circle cx="242" cy="310" r="12" class="sum-circle"/>
+  <text x="242" y="311" class="sum-text">+</text>
+
+  <!-- Arrow sum -> Out -->
+  <line x1="254" y1="310" x2="284" y2="310" class="arrow-line"/>
+
+  <!-- Output triangle -->
+  <polygon points="294,295 319,310 294,325" class="out-triangle"/>
+  <text x="304" y="341" class="out-label">Out</text>
+
+  <!-- ========== ALGORITHM 4: With Feedback (bottom-right) ========== -->
+  <!-- Cell: x=355..695, y=205..395 | center x=525 -->
+  <text x="525" y="228" class="algo-title">With Feedback</text>
+
+  <!-- OP2 (modulator) -->
+  <circle cx="430" cy="310" r="25" class="modulator"/>
+  <text x="430" y="310" class="op-label">OP 2</text>
+
+  <!-- Arrow OP2 -> OP1 -->
+  <line x1="455" y1="310" x2="495" y2="310" class="arrow-line"/>
+
+  <!-- OP1 (carrier) -->
+  <circle cx="525" cy="310" r="25" class="carrier"/>
+  <text x="525" y="310" class="op-label">OP 1</text>
+
+  <!-- Feedback loop: curved arrow from OP1 back to itself -->
+  <path d="M537,287 C545,250 560,245 560,270 C560,290 548,288 540,288"
+    class="feedback-line"/>
+
+  <!-- Arrow OP1 -> Out -->
+  <line x1="550" y1="310" x2="600" y2="310" class="arrow-line"/>
+
+  <!-- Output triangle -->
+  <polygon points="610,295 635,310 610,325" class="out-triangle"/>
+  <text x="620" y="341" class="out-label">Out</text>
+
+  <!-- Feedback label -->
+  <text x="575" y="255" font-family="sans-serif" font-size="10" fill="#dc2626" font-style="italic">feedback</text>
+
+  <!-- Legend at bottom -->
+  <circle cx="200" cy="393" r="8" class="modulator"/>
+  <text x="215" y="396" font-family="sans-serif" font-size="10" fill="#6b7280">Modulator</text>
+  <circle cx="300" cy="393" r="8" class="carrier"/>
+  <text x="315" y="396" font-family="sans-serif" font-size="10" fill="#6b7280">Carrier</text>
+  <line x1="380" y1="393" x2="405" y2="393" class="arrow-line"/>
+  <text x="412" y="396" font-family="sans-serif" font-size="10" fill="#6b7280">Modulates</text>
+  <line x1="475" y1="393" x2="500" y2="393" class="feedback-line"/>
+  <text x="507" y="396" font-family="sans-serif" font-size="10" fill="#6b7280">Feedback</text>
+</svg>
