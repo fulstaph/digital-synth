@@ -27,10 +27,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Claude Code
-        run: |
-          brew install anthropics/ccd/claude-code
+        with:
+          fetch-depth: 1
 
       - name: Run Claude Code
-        run: claude --version
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
