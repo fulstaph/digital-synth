@@ -2,6 +2,8 @@
 
 Filters and tone-shaping stages sculpt the spectrum and character of a synthesizer sound. In subtractive synthesis, they are central to the instrument.
 
+![Filter frequency response curves](../diagrams/filter-responses.svg)
+
 ## Filter
 
 A filter changes the level of different frequency ranges.
@@ -189,6 +191,126 @@ Why it matters:
 Design implication:
 
 A multimode filter is a good long-term design target, but the conceptual model should start with clear individual filter behaviors.
+
+## Filter Topology
+
+Filter topology refers to the arrangement and feedback structure of a filter's internal stages. Two filters can share the same cutoff frequency, resonance setting, and slope yet sound noticeably different because of how their stages are connected, where feedback is introduced, and how signals combine at each point in the structure.
+
+Topology determines several musical qualities: how resonance interacts with the signal's overall level, how smoothly the filter transitions between passband and stopband, how the filter responds to transients, and how it behaves at extreme settings. These qualities give a filter its character, which is why musicians often describe filters by their topology name rather than by their technical specifications.
+
+Why it matters:
+
+- It is the primary reason different synthesizers with the same filter type can sound so different from each other.
+- It shapes the sonic identity of an instrument more than almost any other single design choice.
+- Choosing a topology is a musical decision, not just a technical one.
+
+Musical importance:
+
+A ladder topology and a state-variable topology set to the same low-pass cutoff and resonance will produce recognizably different timbres. The choice of topology defines the instrument's tonal personality across every patch that uses the filter.
+
+Design implication:
+
+The project should treat topology as a first-class design parameter. When multiple filter characters are offered, exposing topology as a user-facing choice gives sound designers meaningful control over the instrument's fundamental voice.
+
+## Ladder Filter Character
+
+A ladder filter is a topology built from a cascade of matched stages, each contributing a portion of the total slope, with a global feedback path from the output back to the input. It is historically associated with early analog subtractive synthesizers and remains one of the most recognized filter sounds.
+
+The defining musical trait of a ladder filter is that its resonance draws energy from the signal passing through it. As resonance rises, the bass content of the output decreases. This bass loss gives the ladder its characteristic sound: resonance adds a focused, singing peak while the body of the sound thins out, creating a clear separation between the resonant emphasis and the underlying tone.
+
+Why it matters:
+
+- It is the reference sound for classic subtractive synthesis. Many musicians expect a subtractive synthesizer to offer this character.
+- The bass-loss behavior is musically distinctive. It naturally prevents muddiness at high resonance but can also require compensation if a full low end is needed.
+- Its smooth, warm rolloff and predictable resonance curve make it forgiving across a wide range of patches.
+
+Musical importance:
+
+Acid bass lines, sweeping pads, plucked leads, and many foundational subtractive sounds were shaped by ladder character. It remains a benchmark that players compare other filters against.
+
+Design implication:
+
+A ladder-character filter is a strong candidate for the project's first filter voice. If offered alongside other topologies, the bass-loss trait should be preserved rather than corrected away, since it is central to the musical identity. Any optional bass compensation should be a separate, clearly labeled control.
+
+## State-Variable Filter Depth
+
+A state-variable filter is a topology that produces multiple simultaneous outputs from a single structure: low-pass, high-pass, band-pass, and notch. Rather than designing separate circuits or processes for each mode, the state-variable arrangement derives all of them at different points in the same signal flow.
+
+Resonance in a state-variable filter typically behaves differently from a ladder. Instead of reducing bass content as resonance increases, a state-variable filter tends to preserve the overall frequency balance while adding a resonant peak. This means that at high resonance, the sound retains its body and weight while the peak becomes more pronounced.
+
+Why it matters:
+
+- It provides maximum flexibility from a single filter structure, making it natural for multimode designs.
+- The resonance behavior makes it well suited for sounds that need both strong resonance and full bass, such as heavy bass patches and thick pads.
+- Smooth morphing between filter modes is more straightforward because all outputs share the same internal state.
+
+Musical importance:
+
+The ability to crossfade or switch between low-pass, high-pass, band-pass, and notch from one filter gives a sound designer far more tonal range per voice. The bass-preserving resonance character suits modern electronic music styles that demand weight and presence alongside filter movement.
+
+Design implication:
+
+A state-variable topology is a strong candidate for the project's multimode filter. It should expose mode selection or continuous mode morphing as a user-facing control. The resonance behavior difference from a ladder should be documented for users so they understand why the two topologies feel different at similar settings.
+
+## Self-Oscillation
+
+Self-oscillation occurs when a filter's resonance is raised high enough that the feedback within the filter sustains a continuous pitched tone, even with no input signal. The filter effectively becomes an oscillator, producing a clean or near-clean sine-like waveform at the cutoff frequency.
+
+The pitch of a self-oscillating filter follows the cutoff control. When key tracking is set to full, the filter's self-oscillation pitch tracks the keyboard, allowing the filter to function as an additional pitched voice. This can be used for sine-like bass tones, melodic whistles layered over the main oscillators, or special effects where the filter's pitch sweeps independently.
+
+Why it matters:
+
+- It extends the instrument's sound palette without adding a dedicated oscillator.
+- It enables specific musical techniques: acid bass lines often rely on self-oscillation at the edge of feedback, pitched filter drops use it for dramatic sweeps, and experimental patches use it as a tonal element.
+- It defines a boundary in the resonance range that has both creative potential and safety concerns.
+
+Musical importance:
+
+A filter that can self-oscillate offers a wider expressive range. A filter that cannot may feel limited to players accustomed to analog-style instruments. The transition zone just below self-oscillation, where resonance is very high but not yet sustaining, is itself a musically rich area.
+
+Design implication:
+
+The project should support self-oscillation as a deliberate feature rather than an accidental byproduct. Gain management around the self-oscillation threshold is essential: the output level can spike dramatically, so limiting or soft clipping after the filter stage protects both the signal chain and the listener. The resonance control's scaling should place the self-oscillation threshold at a predictable and accessible point.
+
+## Filter Frequency Modulation
+
+Filter frequency modulation means using an audio-rate signal, such as an oscillator, to modulate the filter's cutoff frequency. This is distinct from modulating cutoff with an envelope or LFO, which operate at sub-audio rates and produce smooth, predictable sweeps. Audio-rate modulation is fast enough to create new frequency components, called sidebands, that do not exist in either the original signal or the modulating signal alone.
+
+The resulting sound is often metallic, harsh, clangorous, or aggressive, depending on the modulation depth and the frequency relationship between the modulator and the cutoff. At shallow depths, it adds a subtle animation or shimmer. At deep settings, it can radically transform the timbre into something inharmonic and bell-like or noisy and chaotic.
+
+Why it matters:
+
+- It opens timbral territory that static or slowly modulated filters cannot reach.
+- It bridges subtractive and modulation synthesis, giving a subtractive instrument access to FM-like textures without requiring a full FM engine.
+- It is a powerful tool for aggressive sound design, industrial textures, and experimental patches.
+
+Musical importance:
+
+Audio-rate filter modulation can produce sounds ranging from subtle grit to extreme metallic transformation. It is particularly valued in genres that prize aggressive or unusual timbres, and it adds depth to an instrument that might otherwise be limited to smooth subtractive tones.
+
+Design implication:
+
+If supported, filter frequency modulation should be clearly labeled and controlled. The modulation source, depth, and polarity should all be exposed. Because audio-rate modulation of a filter can produce frequency content above the audible range, aliasing is a design-level concern that should be addressed when implementation begins. A safe default depth and clear documentation will help users explore this feature without immediately producing harsh artifacts.
+
+## Zero-Delay Feedback
+
+Zero-delay feedback is a design concept where a filter's output is available to its own feedback path within the same computational step, rather than using a delayed version of the output. In any system that processes audio in discrete steps, there is a natural tendency for the feedback signal to arrive one step late. Zero-delay feedback describes approaches that resolve this delay so the filter behaves as though input and feedback are truly simultaneous.
+
+The musical consequence of this concept is most apparent at high resonance and during self-oscillation. When feedback is delayed even slightly, the resonant peak drifts in pitch and the filter's self-oscillation may not track the cutoff frequency accurately. With zero-delay feedback, resonance is tighter, self-oscillation pitch is more precise, and the overall filter response more closely matches the behavior of analog filters where feedback is inherently instantaneous.
+
+Why it matters:
+
+- It is the primary factor in whether a filter sounds convincingly analog at high resonance settings.
+- It determines how accurately a self-oscillating filter tracks pitch across the keyboard.
+- It affects the perceived tightness and musicality of resonance at all settings, not just extremes.
+
+Musical importance:
+
+Players working with self-oscillating filters or high-resonance sounds will hear the difference immediately. Accurate pitch tracking during self-oscillation is essential for using the filter as a melodic element. Even at moderate resonance, zero-delay feedback produces a more solid and focused resonant character.
+
+Design implication:
+
+The project should treat zero-delay feedback as a quality benchmark for its filter models. It is a design-level commitment to analog-accurate behavior rather than an optional enhancement. When filter quality is evaluated during development, resonance accuracy and self-oscillation pitch tracking should be primary test criteria.
 
 ## Key Tracking
 

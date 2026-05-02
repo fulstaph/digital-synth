@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 600" width="700" height="600">
+  <!-- Sine Wave -->
+  <line x1="120" y1="60" x2="660" y2="60" stroke="#d1d5db" stroke-width="0.5"/>
+  <text x="20" y="65" font-family="sans-serif" font-size="14" fill="#374151">Sine</text>
+  <path d="M120,60 C155,60 155,15 190,15 C225,15 225,105 260,105 C295,105 295,15 330,15 C365,15 365,105 400,105 C435,105 435,15 470,15 C505,15 505,105 540,105 C575,105 575,15 610,15 C645,15 645,60 660,60" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Triangle Wave -->
+  <line x1="120" y1="180" x2="660" y2="180" stroke="#d1d5db" stroke-width="0.5"/>
+  <text x="20" y="185" font-family="sans-serif" font-size="14" fill="#374151">Triangle</text>
+  <path d="M120,180 L187.5,135 L322.5,225 L457.5,135 L592.5,225 L660,180" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Sawtooth Wave -->
+  <line x1="120" y1="300" x2="660" y2="300" stroke="#d1d5db" stroke-width="0.5"/>
+  <text x="20" y="305" font-family="sans-serif" font-size="14" fill="#374151">Sawtooth</text>
+  <path d="M120,255 L390,345 L390,255 L660,345" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Square Wave -->
+  <line x1="120" y1="420" x2="660" y2="420" stroke="#d1d5db" stroke-width="0.5"/>
+  <text x="20" y="425" font-family="sans-serif" font-size="14" fill="#374151">Square</text>
+  <path d="M120,375 L255,375 L255,465 L390,465 L390,375 L525,375 L525,465 L660,465" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Pulse Wave (25% duty cycle) -->
+  <line x1="120" y1="540" x2="660" y2="540" stroke="#d1d5db" stroke-width="0.5"/>
+  <text x="20" y="545" font-family="sans-serif" font-size="14" fill="#374151">Pulse</text>
+  <path d="M120,495 L187.5,495 L187.5,585 L390,585 L390,495 L457.5,495 L457.5,585 L660,585" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

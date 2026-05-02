@@ -2,6 +2,8 @@
 
 This document defines the high-level architecture for Digital Synth without choosing a technical stack. It describes the synthesizer as a set of musical and signal-flow responsibilities.
 
+![Subtractive synthesizer signal flow](diagrams/subtractive-signal-flow.svg)
+
 ## Architectural Goal
 
 Digital Synth should be designed as a modular real-time instrument. It should accept musical gestures, allocate voices, generate sound, shape that sound over time, mix voices together, process the result through effects, and deliver stable audio output.

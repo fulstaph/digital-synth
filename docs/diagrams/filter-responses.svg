@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 500" width="700" height="500">
+  <defs>
+    <clipPath id="clip-tl"><rect x="30" y="30" width="310" height="210"/></clipPath>
+    <clipPath id="clip-tr"><rect x="370" y="30" width="310" height="210"/></clipPath>
+    <clipPath id="clip-bl"><rect x="30" y="270" width="310" height="210"/></clipPath>
+    <clipPath id="clip-br"><rect x="370" y="270" width="310" height="210"/></clipPath>
+  </defs>
+
+  <!-- ==================== TOP-LEFT: Low-Pass ==================== -->
+  <text x="185" y="22" font-family="sans-serif" font-size="14" font-weight="600" fill="#374151" text-anchor="middle">Low-Pass</text>
+
+  <!-- Grid lines -->
+  <line x1="70" y1="70" x2="320" y2="70" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="70" y1="110" x2="320" y2="110" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="70" y1="150" x2="320" y2="150" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="70" y1="190" x2="320" y2="190" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="120" y1="50" x2="120" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="170" y1="50" x2="170" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="220" y1="50" x2="220" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="270" y1="50" x2="270" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+
+  <!-- Axes -->
+  <line x1="70" y1="220" x2="320" y2="220" stroke="#9ca3af" stroke-width="1"/>
+  <line x1="70" y1="50" x2="70" y2="220" stroke="#9ca3af" stroke-width="1"/>
+  <text x="195" y="238" font-family="sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">Frequency &#x2192;</text>
+
+  <!-- Cutoff line -->
+  <line x1="190" y1="50" x2="190" y2="220" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="190" y="46" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Cutoff</text>
+
+  <!-- Low-pass gentle slope (12 dB/oct) -->
+  <path d="M70,70 L190,70 Q210,75 230,110 Q260,170 290,195 L320,210" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip-tl)"/>
+
+  <!-- Low-pass steep slope (24 dB/oct) -->
+  <path d="M70,70 L185,70 Q200,72 210,120 Q220,175 230,210 L240,220" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,3" clip-path="url(#clip-tl)"/>
+
+  <!-- Slope labels -->
+  <text x="280" y="170" font-family="sans-serif" font-size="9" fill="#2563eb">gentle</text>
+  <text x="228" y="200" font-family="sans-serif" font-size="9" fill="#2563eb">steep</text>
+
+  <!-- Low-pass with resonance (red) -->
+  <path d="M70,70 L175,70 Q183,68 187,50 Q190,40 193,50 Q197,68 205,100 Q225,165 260,200 L320,215" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip-tl)"/>
+
+  <!-- Resonance label with arrow -->
+  <text x="215" y="42" font-family="sans-serif" font-size="10" fill="#dc2626">Resonance</text>
+  <line x1="213" y1="43" x2="196" y2="43" stroke="#dc2626" stroke-width="1"/>
+  <polygon points="196,43 200,40 200,46" fill="#dc2626"/>
+
+  <!-- ==================== TOP-RIGHT: High-Pass ==================== -->
+  <text x="525" y="22" font-family="sans-serif" font-size="14" font-weight="600" fill="#374151" text-anchor="middle">High-Pass</text>
+
+  <!-- Grid lines -->
+  <line x1="410" y1="70" x2="660" y2="70" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="410" y1="110" x2="660" y2="110" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="410" y1="150" x2="660" y2="150" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="410" y1="190" x2="660" y2="190" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="460" y1="50" x2="460" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="510" y1="50" x2="510" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="560" y1="50" x2="560" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="610" y1="50" x2="610" y2="220" stroke="#f3f4f6" stroke-width="1"/>
+
+  <!-- Axes -->
+  <line x1="410" y1="220" x2="660" y2="220" stroke="#9ca3af" stroke-width="1"/>
+  <line x1="410" y1="50" x2="410" y2="220" stroke="#9ca3af" stroke-width="1"/>
+  <text x="535" y="238" font-family="sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">Frequency &#x2192;</text>
+
+  <!-- Cutoff line -->
+  <line x1="530" y1="50" x2="530" y2="220" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="530" y="46" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Cutoff</text>
+
+  <!-- High-pass curve -->
+  <path d="M420,210 L440,200 Q470,175 490,130 Q510,85 525,72 L530,70 L660,70" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip-tr)"/>
+
+  <!-- ==================== BOTTOM-LEFT: Band-Pass ==================== -->
+  <text x="185" y="262" font-family="sans-serif" font-size="14" font-weight="600" fill="#374151" text-anchor="middle">Band-Pass</text>
+
+  <!-- Grid lines -->
+  <line x1="70" y1="310" x2="320" y2="310" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="70" y1="350" x2="320" y2="350" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="70" y1="390" x2="320" y2="390" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="70" y1="430" x2="320" y2="430" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="120" y1="290" x2="120" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="170" y1="290" x2="170" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="220" y1="290" x2="220" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="270" y1="290" x2="270" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+
+  <!-- Axes -->
+  <line x1="70" y1="460" x2="320" y2="460" stroke="#9ca3af" stroke-width="1"/>
+  <line x1="70" y1="290" x2="70" y2="460" stroke="#9ca3af" stroke-width="1"/>
+  <text x="195" y="478" font-family="sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">Frequency &#x2192;</text>
+
+  <!-- Cutoff (center frequency) line -->
+  <line x1="190" y1="290" x2="190" y2="460" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="190" y="286" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Center</text>
+
+  <!-- Band-pass curve -->
+  <path d="M70,450 Q100,445 120,430 Q140,400 160,350 Q175,310 190,295 Q205,310 220,350 Q240,400 260,430 Q280,445 320,450" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip-bl)"/>
+
+  <!-- ==================== BOTTOM-RIGHT: Notch ==================== -->
+  <text x="525" y="262" font-family="sans-serif" font-size="14" font-weight="600" fill="#374151" text-anchor="middle">Notch</text>
+
+  <!-- Grid lines -->
+  <line x1="410" y1="310" x2="660" y2="310" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="410" y1="350" x2="660" y2="350" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="410" y1="390" x2="660" y2="390" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="410" y1="430" x2="660" y2="430" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="460" y1="290" x2="460" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="510" y1="290" x2="510" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="560" y1="290" x2="560" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+  <line x1="610" y1="290" x2="610" y2="460" stroke="#f3f4f6" stroke-width="1"/>
+
+  <!-- Axes -->
+  <line x1="410" y1="460" x2="660" y2="460" stroke="#9ca3af" stroke-width="1"/>
+  <line x1="410" y1="290" x2="410" y2="460" stroke="#9ca3af" stroke-width="1"/>
+  <text x="535" y="478" font-family="sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">Frequency &#x2192;</text>
+
+  <!-- Cutoff (notch center) line -->
+  <line x1="530" y1="290" x2="530" y2="460" stroke="#9ca3af" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="530" y="286" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">Cutoff</text>
+
+  <!-- Notch curve -->
+  <path d="M410,310 L490,310 Q510,312 520,340 Q525,380 528,450 Q530,460 532,450 Q535,380 540,340 Q550,312 570,310 L660,310" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#clip-br)"/>
+</svg>

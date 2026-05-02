@@ -2,6 +2,8 @@
 
 Oscillators and sound sources provide the raw material of synthesis. Filters, envelopes, effects, and modulation can shape that material, but the source determines the starting spectrum and behavior.
 
+![Common synthesizer waveforms](../diagrams/waveforms.svg)
+
 ## Oscillator
 
 An oscillator is a signal generator that produces a repeating waveform.
@@ -201,6 +203,123 @@ Why it matters:
 Design implication:
 
 Unison needs gain compensation, detune control, stereo spread, and phase behavior rules.
+
+## Detune Distribution And Curves
+
+Detune distribution describes how the pitch offset is spread across the unison voices. When several voices play the same note, each one is shifted slightly sharp or flat relative to the center pitch. The distribution curve controls how those offsets are spaced.
+
+Linear spacing places voices at equal pitch intervals above and below the center. This produces an even spread that is easy to predict and sounds uniformly wide. Exponential spacing pushes the outer voices farther apart while keeping inner voices closer to the center, which emphasizes the edges and can sound more dramatic. Center-weighted spacing clusters most voices near the center pitch with only a few at the extremes, which preserves pitch clarity while still adding thickness.
+
+Why it matters:
+
+- The curve shape determines whether unison sounds like a tight chorus or a wide wall.
+- Linear spacing can sound mechanical because every voice contributes equal beating.
+- Center-weighted spacing keeps the fundamental pitch clear, which helps melodic parts stay defined.
+- Exponential spacing produces a wider stereo impression but can blur the perceived pitch.
+
+Controls typically exposed:
+
+- Detune amount, which sets the total pitch range across the voices.
+- Curve shape selector or a single parameter that morphs between center-weighted and edge-weighted distributions.
+
+Design implication:
+
+The detune curve is as important as the detune amount. Two patches with the same detune amount but different curves will sound noticeably different. The synthesizer should treat distribution shape as a first-class parameter rather than hiding it behind a single detune knob.
+
+## Unison Gain Compensation
+
+Gain compensation is the practice of reducing per-voice level as unison voice count increases. When multiple voices are summed, the combined output is louder than a single voice. Without correction, enabling unison or raising the voice count causes a sudden level jump that disrupts the balance of a patch.
+
+The simplest approach is to divide each voice's amplitude by the number of voices, but this can make high-count unison feel quieter than expected because detuned voices partially cancel each other at some frequencies. A more musical approach scales level by a factor between one-over-count and one, tuned by ear or by an empirical curve.
+
+Why it matters:
+
+- Without compensation, switching from two unison voices to eight produces a large level increase.
+- Patches become inconsistent when the user experiments with voice count.
+- Downstream processing like distortion and compression responds differently to level changes, so an uncompensated jump can alter the tone of the entire chain.
+- Perceived loudness does not scale linearly with summed amplitude because detuned voices interact through beating and partial cancellation.
+
+Controls typically exposed:
+
+- Automatic compensation that adjusts silently based on voice count.
+- An optional manual trim that lets the user bias the compensation toward louder or quieter results.
+
+Design implication:
+
+Gain compensation should be built into the unison system rather than left to the user. The goal is that changing the voice count changes the character of the sound without changing its overall loudness. Poor compensation is one of the most common reasons unison patches feel unpredictable.
+
+## Unison Phase Relationships
+
+Phase relationship describes where each unison voice begins its waveform cycle when a note starts. The three common behaviors are phase-aligned, random phase, and spread phase.
+
+Phase-aligned means every unison voice starts at the same point in the cycle. This produces a strong, consistent attack because all voices reinforce each other at the moment of onset. However, the initial instant sounds like a single loud voice before the detune creates audible separation, which can make the attack feel narrow.
+
+Random phase means each voice starts at an unpredictable point. This produces variation from note to note, which sounds organic but makes the attack less consistent. Some notes may feel punchy while others feel softer depending on how the random phases happen to align.
+
+Spread phase distributes starting positions evenly across the cycle. This produces an immediately wide sound from the first sample because the voices are already separated. The tradeoff is a softer, less defined attack.
+
+Why it matters:
+
+- Phase behavior determines whether a unison patch sounds tight and punchy or wide and diffuse at note onset.
+- Drums and basses often benefit from phase-aligned starts for a reliable transient.
+- Pads and ambient textures often benefit from spread or random phase for instant width.
+- The choice interacts with stereo spread: random phase combined with stereo panning creates the widest image but the least mono compatibility.
+
+Controls typically exposed:
+
+- A phase mode selector offering aligned, random, and spread options.
+- Optionally a per-note randomness amount that blends between deterministic and random behavior.
+
+Design implication:
+
+Phase behavior should be a deliberate per-patch choice rather than an implementation accident. The synthesizer should define and document which phase rule applies and ideally allow the user to select one. Consistent phase behavior is especially important for patches that rely on strong transients.
+
+![Unison detune distribution curves](../diagrams/unison-detune.svg)
+
+## Supersaw
+
+A supersaw is a specific application of unison built from multiple detuned sawtooth oscillators layered together. The name comes from the Roland JP-8000, which introduced a single oscillator mode that internally generated several sawtooth voices with adjustable detune. It has since become one of the most recognized sounds in electronic music, particularly in trance, EDM, and modern pop production.
+
+What distinguishes a supersaw from generic unison is the combination of the sawtooth waveform's dense harmonic content with carefully tuned detune and stereo spread. A sawtooth already contains every harmonic, so layering and detuning multiple sawtooths produces rich beating across the entire spectrum rather than at isolated harmonics.
+
+Why it matters:
+
+- The supersaw is a foundational sound that users expect from any modern synthesizer.
+- It demonstrates how unison parameters interact: voice count sets density, detune amount sets width and motion, detune curve sets character, and stereo spread sets spatial image.
+- It is a practical test case for the quality of the unison system because small flaws in gain compensation, phase behavior, or detune distribution become obvious in a supersaw patch.
+
+Key parameters: voice count, detune amount, detune curve shape, and stereo spread. Higher voice counts increase density but with diminishing musical returns beyond seven to nine voices. Detune amount should stay moderate for musical results; excessive detune causes the pitch center to blur and chords become muddy.
+
+Common mistakes:
+
+- Too much detune, which makes the sound wobbly and pitch-unstable rather than wide.
+- Stereo spread that collapses or cancels when summed to mono, making the patch unusable in many playback systems.
+- Excessive voice count without adjusting gain compensation, causing clipping or tonal change from downstream saturation.
+
+Design implication:
+
+The supersaw should be achievable through the general unison and oscillator system rather than requiring a special mode. If the unison system handles detune distribution, gain compensation, phase behavior, and stereo spread correctly, a convincing supersaw emerges naturally from selecting a sawtooth waveform and raising the unison count.
+
+## Unison And Processing Cost
+
+Every unison voice is a full copy of the oscillator and typically runs through the same filter, modulation, and effects path as the original voice. This means that a patch with eight-voice unison on a four-note chord requires the processing resources of thirty-two independent oscillator and filter instances.
+
+Why it matters:
+
+- Unison is the single fastest way to multiply the processing demands of a synthesizer voice.
+- A design that allows high unison counts without accounting for the cost will hit real-time audio limits under polyphonic use.
+- The cost is not only in the oscillator: each unison voice may also need its own filter state, envelope state, and modulation computation.
+
+Strategies at the design level:
+
+- Quality modes that automatically reduce unison count when polyphony is high, trading per-voice richness for more simultaneous notes.
+- A maximum unison voice limit that the architecture enforces globally, preventing runaway resource use.
+- Simplified processing for unison voices, where only the primary voice receives full modulation and the additional voices receive a reduced version. This saves cost but changes the character of the sound because modulation differences between unison voices contribute to movement.
+- Allowing the user to choose between full per-voice processing and shared processing as an explicit quality setting.
+
+Design implication:
+
+Unison cost is an architectural decision, not merely an optimization concern. The voice allocation system, the modulation routing, and the effects chain all need to account for the possibility that a single note may expand into many internal voices. This should be considered during the design phase so that the voice budget and resource limits are coherent from the start.
 
 ## Oscillator Sync
 

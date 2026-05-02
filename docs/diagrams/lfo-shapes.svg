@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400">
+  <style>
+    text { font-family: sans-serif; fill: #374151; }
+    .label { font-size: 12px; text-anchor: middle; }
+    .title { font-size: 14px; font-weight: bold; text-anchor: middle; fill: #1f2937; }
+    .zero-line { stroke: #d1d5db; stroke-width: 0.5; }
+    .cell-border { stroke: #e5e7eb; stroke-width: 0.5; fill: none; }
+    .waveform { fill: none; stroke: #2563eb; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  </style>
+
+  <!-- Grid cells (3 columns x 2 rows) -->
+  <!-- Col positions: 10, 240, 470 | Row positions: 10, 205 -->
+  <!-- Cell size: approximately 220 x 180 -->
+
+  <!-- Cell borders -->
+  <rect x="10" y="10" width="220" height="185" class="cell-border"/>
+  <rect x="240" y="10" width="220" height="185" class="cell-border"/>
+  <rect x="470" y="10" width="220" height="185" class="cell-border"/>
+  <rect x="10" y="205" width="220" height="185" class="cell-border"/>
+  <rect x="240" y="205" width="220" height="185" class="cell-border"/>
+  <rect x="470" y="205" width="220" height="185" class="cell-border"/>
+
+  <!-- ========== ROW 1 ========== -->
+
+  <!-- SINE (top-left) -->
+  <!-- Cell: x=10..230, y=10..195 | center x=120, waveform y center=110 -->
+  <text x="120" y="32" class="title">Sine</text>
+  <line x1="30" y1="115" x2="210" y2="115" class="zero-line"/>
+  <!-- 2 cycles across 180px (30..210), period=90px, amplitude 50px -->
+  <path d="M30,115
+    C41.25,115 41.25,65 52.5,65
+    C63.75,65 63.75,165 75,165
+    C86.25,165 86.25,65 97.5,65
+    C108.75,65 108.75,165 120,165
+    C131.25,165 131.25,65 142.5,65
+    C153.75,65 153.75,165 165,165
+    C176.25,165 176.25,65 187.5,65
+    C198.75,65 198.75,115 210,115" class="waveform"/>
+
+  <!-- TRIANGLE (top-center) -->
+  <!-- Cell: x=240..460, y=10..195 | center x=350, waveform y center=110 -->
+  <text x="350" y="32" class="title">Triangle</text>
+  <line x1="260" y1="115" x2="440" y2="115" class="zero-line"/>
+  <!-- 2 cycles across 180px (260..440), period=90px, amplitude 50px -->
+  <path d="M260,115 L282.5,65 L327.5,165 L372.5,65 L417.5,165 L440,115" class="waveform"/>
+
+  <!-- SAW UP (top-right) -->
+  <!-- Cell: x=470..690, y=10..195 | center x=580, waveform y center=110 -->
+  <text x="580" y="32" class="title">Saw Up</text>
+  <line x1="490" y1="115" x2="670" y2="115" class="zero-line"/>
+  <!-- 2 cycles across 180px (490..670), period=90px, amplitude 50px -->
+  <path d="M490,165 L580,65 L580,165 L670,65" class="waveform"/>
+
+  <!-- ========== ROW 2 ========== -->
+
+  <!-- SAW DOWN (bottom-left) -->
+  <!-- Cell: x=10..230, y=205..390 | center x=120, waveform y center=305 -->
+  <text x="120" y="227" class="title">Saw Down</text>
+  <line x1="30" y1="310" x2="210" y2="310" class="zero-line"/>
+  <!-- 2 cycles across 180px (30..210), period=90px, amplitude 50px -->
+  <path d="M30,260 L120,360 L120,260 L210,360" class="waveform"/>
+
+  <!-- SQUARE (bottom-center) -->
+  <!-- Cell: x=240..460, y=205..390 | center x=350, waveform y center=305 -->
+  <text x="350" y="227" class="title">Square</text>
+  <line x1="260" y1="310" x2="440" y2="310" class="zero-line"/>
+  <!-- 2 cycles across 180px (260..440), period=90px, amplitude 50px -->
+  <path d="M260,260 L305,260 L305,360 L350,360 L350,260 L395,260 L395,360 L440,360" class="waveform"/>
+
+  <!-- SAMPLE & HOLD (bottom-right) -->
+  <!-- Cell: x=470..690, y=205..390 | center x=580, waveform y center=305 -->
+  <text x="580" y="227" class="title">Sample &amp; Hold</text>
+  <line x1="490" y1="310" x2="670" y2="310" class="zero-line"/>
+  <!-- Random stepped values at regular intervals across 180px (490..670) -->
+  <!-- 12 steps across 2 cycles, each step 15px wide -->
+  <path d="M490,280 L505,280
+    L505,340 L520,340
+    L520,265 L535,265
+    L535,350 L550,350
+    L550,290 L565,290
+    L565,330 L580,330
+    L580,260 L595,260
+    L595,355 L610,355
+    L610,275 L625,275
+    L625,345 L640,345
+    L640,270 L655,270
+    L655,335 L670,335" class="waveform"/>
+</svg>

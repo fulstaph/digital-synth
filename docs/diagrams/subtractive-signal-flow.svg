@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="800" height="350">
+  <defs>
+    <marker id="arrow-gray" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280"/>
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#d97706"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 7" refX="10" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#16a34a"/>
+    </marker>
+  </defs>
+
+  <!-- ==================== ROW 1: Main Signal Path ==================== -->
+
+  <!-- Oscillators -->
+  <rect x="30" y="130" width="90" height="40" rx="6" ry="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="75" y="155" font-family="sans-serif" font-size="13" fill="#1e40af" text-anchor="middle">Oscillators</text>
+
+  <!-- Arrow: Oscillators -> Mixer -->
+  <line x1="120" y1="150" x2="155" y2="150" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+  <!-- Mixer -->
+  <rect x="163" y="130" width="70" height="40" rx="6" ry="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="198" y="155" font-family="sans-serif" font-size="13" fill="#1e40af" text-anchor="middle">Mixer</text>
+
+  <!-- Arrow: Mixer -> Filter -->
+  <line x1="233" y1="150" x2="268" y2="150" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+  <!-- Filter -->
+  <rect x="276" y="130" width="70" height="40" rx="6" ry="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="311" y="155" font-family="sans-serif" font-size="13" fill="#1e40af" text-anchor="middle">Filter</text>
+
+  <!-- Arrow: Filter -> Amplifier -->
+  <line x1="346" y1="150" x2="388" y2="150" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+  <!-- Amplifier -->
+  <rect x="396" y="130" width="80" height="40" rx="6" ry="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="436" y="155" font-family="sans-serif" font-size="13" fill="#1e40af" text-anchor="middle">Amplifier</text>
+
+  <!-- Arrow: Amplifier -> Effects -->
+  <line x1="476" y1="150" x2="518" y2="150" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+  <!-- Effects -->
+  <rect x="526" y="130" width="70" height="40" rx="6" ry="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="561" y="155" font-family="sans-serif" font-size="13" fill="#1e40af" text-anchor="middle">Effects</text>
+
+  <!-- Arrow: Effects -> Output -->
+  <line x1="596" y1="150" x2="638" y2="150" stroke="#6b7280" stroke-width="1.5" marker-end="url(#arrow-gray)"/>
+
+  <!-- Output -->
+  <rect x="646" y="130" width="70" height="40" rx="6" ry="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="681" y="155" font-family="sans-serif" font-size="13" fill="#1e40af" text-anchor="middle">Output</text>
+
+  <!-- ==================== ROW 3: Performance Input (above main path) ==================== -->
+
+  <!-- MIDI / Keyboard -->
+  <rect x="125" y="20" width="130" height="40" rx="6" ry="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="190" y="45" font-family="sans-serif" font-size="13" fill="#166534" text-anchor="middle">MIDI / Keyboard</text>
+
+  <!-- Arrow: MIDI -> Oscillators (pitch) -->
+  <line x1="160" y1="60" x2="75" y2="122" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="92" y="88" font-family="sans-serif" font-size="10" fill="#16a34a">Pitch</text>
+
+  <!-- Arrow: MIDI -> Amplifier (velocity) -->
+  <line x1="225" y1="60" x2="436" y2="122" stroke="#16a34a" stroke-width="1.5" marker-end="url(#arrow-green)"/>
+  <text x="355" y="80" font-family="sans-serif" font-size="10" fill="#16a34a">Velocity</text>
+
+  <!-- ==================== ROW 2: Modulation Sources (below main path) ==================== -->
+
+  <!-- Envelope 1 (Amp Env) -->
+  <rect x="380" y="250" width="100" height="40" rx="6" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="430" y="275" font-family="sans-serif" font-size="13" fill="#92400e" text-anchor="middle">Envelope 1</text>
+
+  <!-- Arrow: Envelope 1 -> Amplifier -->
+  <line x1="430" y1="250" x2="436" y2="178" stroke="#d97706" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+  <text x="450" y="218" font-family="sans-serif" font-size="10" fill="#d97706">Amp Env</text>
+
+  <!-- Envelope 2 (Filter Env) -->
+  <rect x="230" y="250" width="100" height="40" rx="6" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="280" y="275" font-family="sans-serif" font-size="13" fill="#92400e" text-anchor="middle">Envelope 2</text>
+
+  <!-- Arrow: Envelope 2 -> Filter -->
+  <line x1="280" y1="250" x2="305" y2="178" stroke="#d97706" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+  <text x="306" y="218" font-family="sans-serif" font-size="10" fill="#d97706">Filter Env</text>
+
+  <!-- LFO -->
+  <rect x="70" y="300" width="70" height="40" rx="6" ry="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="105" y="325" font-family="sans-serif" font-size="13" fill="#92400e" text-anchor="middle">LFO</text>
+
+  <!-- Arrow: LFO -> Oscillators (Vibrato) -->
+  <path d="M90,300 L90,200 L75,178" fill="none" stroke="#d97706" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+  <text x="60" y="230" font-family="sans-serif" font-size="10" fill="#d97706">Vibrato</text>
+
+  <!-- Arrow: LFO -> Filter (Cutoff Mod) -->
+  <path d="M130,300 L130,230 L290,230 L305,178" fill="none" stroke="#d97706" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+  <text x="180" y="226" font-family="sans-serif" font-size="10" fill="#d97706">Cutoff Mod</text>
+</svg>
