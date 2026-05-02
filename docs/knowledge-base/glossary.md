@@ -346,6 +346,10 @@ A filter that keeps low frequencies and reduces high frequencies. Important as t
 
 A high-level control mapped to multiple parameters. Important for performance and preset design.
 
+### Mid/Side Processing
+
+Encoding stereo as sum (mid) and difference (side) channels for independent processing. Important for precise stereo image control.
+
 ### MIDI
 
 Musical Instrument Digital Interface. A standard for musical note and control messages. Important because it is a common way to control synthesizers.
@@ -353,10 +357,6 @@ Musical Instrument Digital Interface. A standard for musical note and control me
 ### MIDI 2.0
 
 An expanded MIDI standard with higher-resolution and richer communication concepts. Important for future expressive control.
-
-### Mid/Side Processing
-
-Encoding stereo as sum (mid) and difference (side) channels for independent processing. Important for precise stereo image control.
 
 ### MinBLEP
 

@@ -12,7 +12,7 @@
   <!-- Sawtooth Wave -->
   <line x1="120" y1="300" x2="660" y2="300" stroke="#d1d5db" stroke-width="0.5"/>
   <text x="20" y="305" font-family="sans-serif" font-size="14" fill="#374151">Sawtooth</text>
-  <path d="M120,345 L390,255 L390,345 L660,255" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M120,255 L390,345 L390,255 L660,345" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- Square Wave -->
   <line x1="120" y1="420" x2="660" y2="420" stroke="#d1d5db" stroke-width="0.5"/>

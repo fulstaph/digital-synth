@@ -4,8 +4,6 @@ Wavetable synthesis produces evolving, complex timbres by scanning through colle
 
 Where subtractive synthesis sculpts tone by removing harmonics from a static waveform, wavetable synthesis sculpts tone by moving through a sequence of waveforms that each have a different harmonic fingerprint. The result is sound that can shift continuously in character without relying solely on filters or effects.
 
-This document covers the concepts in depth, following the project convention of explaining what each idea means, why it matters, how it affects sound, which controls are usually exposed, what mistakes or edge cases matter, and how it should influence the design of Digital Synth.
-
 ## Wavetable Structure
 
 A wavetable is an ordered collection of single-cycle waveforms called frames. Each frame captures one complete cycle of a waveform at a specific spectral shape. The ordering matters: adjacent frames are intended to be perceptually related so that scanning from one to the next produces a coherent timbral transition rather than a random jump.
