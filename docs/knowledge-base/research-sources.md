@@ -13,7 +13,7 @@ Why these matter:
 
 Digital Synth must treat audio deadlines, buffering, latency, and aliasing as design constraints. These are not late implementation details. They affect architecture from the beginning.
 
-## Web Audio Concepts
+## Audio Parameters and Automation Models
 
 - MDN Web Audio API overview: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API
 - MDN AudioWorklet: https://developer.mozilla.org/en-US/docs/Web/API/AudioWorklet
@@ -24,7 +24,7 @@ Digital Synth must treat audio deadlines, buffering, latency, and aliasing as de
 
 Why these matter:
 
-These sources are useful for conceptual separation of audio processing, parameters, automation, oscillators, and filters. They should not be read as a stack decision.
+These sources are cited for their clear conceptual explanation of audio parameters, automation schedules, oscillator topology, and filter abstractions—not as a stack recommendation. The Web Audio API's parameter model (time-scheduled, exponential curves, linear ramps) represents a widely understood approach to real-time parameter automation that is independent of deployment target. These concepts apply equally to native audio APIs, embedded systems, and browser environments.
 
 ## Synthesizer Architecture
 
