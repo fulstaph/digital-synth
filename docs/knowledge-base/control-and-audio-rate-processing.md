@@ -2,8 +2,6 @@
 
 Digital synthesizers process information at different rates depending on the precision and speed required. Understanding these rate distinctions is essential for designing a modulation system that sounds smooth, performs efficiently, and behaves predictably across different parameter types.
 
-![System threading and real-time boundary](../diagrams/realtime-boundary.svg)
-
 ## Audio Rate
 
 Audio-rate processing computes a new value for every individual sample in the output stream. At a sample rate of 48 kHz, this means 48000 calculations per second for each audio-rate process.
@@ -145,6 +143,8 @@ This makes rate assignment a performance decision as much as a quality decision.
 Design implication:
 
 The synthesizer should track its CPU usage relative to the block deadline and expose this information to the user. Understanding the processing budget helps users make informed decisions about patch complexity, voice count, and quality settings. The architecture should also allow rate decisions to be adjusted as a quality-versus-performance tradeoff, so that a computationally expensive patch can be lightened by switching non-critical modulation paths from audio rate to control rate.
+
+![System threading and real-time boundary](../diagrams/realtime-boundary.svg)
 
 ## Design Recommendations For Digital Synth
 
