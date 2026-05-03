@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" width="800" height="420">
+  <!-- Title -->
+  <text x="400" y="28" font-family="sans-serif" font-size="16" font-weight="bold" fill="#374151" text-anchor="middle">System Threading And Real-Time Boundary</text>
+
+  <!-- Real-time boundary dashed line -->
+  <line x1="400" y1="48" x2="400" y2="400" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="8,5"/>
+  <text x="400" y="414" font-family="sans-serif" font-size="11" fill="#dc2626" text-anchor="middle">real-time boundary</text>
+
+  <!-- Left label -->
+  <text x="195" y="58" font-family="sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">Non-Real-Time</text>
+  <!-- Right label -->
+  <text x="610" y="58" font-family="sans-serif" font-size="11" fill="#6b7280" text-anchor="middle">Real-Time (deadline-driven)</text>
+
+  <!-- ===== Non-real-time side ===== -->
+
+  <!-- MIDI Controller box -->
+  <rect x="30" y="80" width="140" height="50" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="101" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">MIDI Input</text>
+  <text x="100" y="117" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">keyboard / controller</text>
+
+  <!-- UI / Parameter Editing box -->
+  <rect x="30" y="170" width="140" height="50" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="191" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">UI Thread</text>
+  <text x="100" y="207" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">controls / presets / display</text>
+
+  <!-- Preset / File I/O box -->
+  <rect x="30" y="260" width="140" height="50" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="281" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">File I/O</text>
+  <text x="100" y="297" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">presets / samples</text>
+
+  <!-- ===== Bridge boxes (straddle boundary at x=400) ===== -->
+
+  <!-- Event Queue box -->
+  <rect x="335" y="80" width="130" height="60" rx="6" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="400" y="106" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">Event Queue</text>
+  <text x="400" y="122" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">lock-free / wait-free</text>
+
+  <!-- Parameter Store -->
+  <rect x="335" y="185" width="130" height="60" rx="6" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="400" y="211" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">Parameter</text>
+  <text x="400" y="227" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">atomic / lock-free</text>
+
+  <!-- Snapshot buffer -->
+  <rect x="335" y="330" width="130" height="50" rx="6" fill="#fefce8" stroke="#ca8a04" stroke-width="1.5"/>
+  <text x="400" y="351" font-family="sans-serif" font-size="12" font-weight="bold" fill="#854d0e" text-anchor="middle">Snapshot</text>
+  <text x="400" y="367" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">non-blocking copy</text>
+
+  <!-- ===== Real-time side ===== -->
+
+  <!-- Synth Engine box -->
+  <rect x="510" y="100" width="150" height="70" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="585" y="128" font-family="sans-serif" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">Synth Engine</text>
+  <text x="585" y="144" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">voices / oscillators</text>
+  <text x="585" y="158" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">filters / modulation</text>
+
+  <!-- Audio Buffer box -->
+  <rect x="510" y="215" width="150" height="50" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="585" y="236" font-family="sans-serif" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">Audio Buffer</text>
+  <text x="585" y="252" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">e.g. 128–1024 samples</text>
+
+  <!-- Audio Output / DAC box -->
+  <rect x="690" y="215" width="100" height="50" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="740" y="236" font-family="sans-serif" font-size="12" font-weight="bold" fill="#166534" text-anchor="middle">Audio Output</text>
+  <text x="740" y="252" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">DAC / speakers</text>
+
+  <!-- Visualization box -->
+  <rect x="30" y="340" width="140" height="45" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="361" font-family="sans-serif" font-size="12" font-weight="bold" fill="#1e40af" text-anchor="middle">Visualization</text>
+  <text x="100" y="375" font-family="sans-serif" font-size="10" fill="#6b7280" text-anchor="middle">waveform / spectrum</text>
+
+  <!-- ===== Arrows ===== -->
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 7" refX="9" refY="3.5" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,3.5 L0,7 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+
+  <!-- MIDI → Event Queue -->
+  <path d="M170,105 L333,108" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="245" y="100" font-family="sans-serif" font-size="9" fill="#6b7280">notes</text>
+
+  <!-- UI → Parameter Store -->
+  <path d="M170,195 L333,210" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="240" y="196" font-family="sans-serif" font-size="9" fill="#6b7280">param changes</text>
+
+  <!-- File I/O → Parameter Store -->
+  <path d="M170,280 L333,225" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="230" y="262" font-family="sans-serif" font-size="9" fill="#6b7280">preset values</text>
+
+  <!-- Event Queue → Synth Engine -->
+  <path d="M465,110 L508,125" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="473" y="110" font-family="sans-serif" font-size="9" fill="#6b7280">note events</text>
+
+  <!-- Parameter Store → Synth Engine -->
+  <path d="M465,215 L508,165" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="473" y="200" font-family="sans-serif" font-size="9" fill="#6b7280">param reads</text>
+
+  <!-- Synth Engine → Audio Buffer -->
+  <path d="M585,170 L585,213" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="592" y="196" font-family="sans-serif" font-size="9" fill="#6b7280">render</text>
+
+  <!-- Audio Buffer → DAC -->
+  <path d="M660,240 L688,240" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="668" y="234" font-family="sans-serif" font-size="9" fill="#6b7280">stream</text>
+
+  <!-- Synth Engine → Snapshot (dashed, non-blocking) -->
+  <path d="M530,170 L465,338" fill="none" stroke="#6b7280" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#arrow)"/>
+  <text x="505" y="270" font-family="sans-serif" font-size="9" fill="#6b7280">copy</text>
+
+  <!-- Snapshot → Visualization -->
+  <path d="M335,355 L172,360" fill="none" stroke="#6b7280" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>

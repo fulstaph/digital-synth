@@ -144,6 +144,8 @@ Design implication:
 
 The synthesizer should track its CPU usage relative to the block deadline and expose this information to the user. Understanding the processing budget helps users make informed decisions about patch complexity, voice count, and quality settings. The architecture should also allow rate decisions to be adjusted as a quality-versus-performance tradeoff, so that a computationally expensive patch can be lightened by switching non-critical modulation paths from audio rate to control rate.
 
+![System threading and real-time boundary](../diagrams/realtime-boundary.svg)
+
 ## Design Recommendations For Digital Synth
 
 Oscillators, filters, and amplitude processing should always operate at audio rate. These are the core signal path and their output is the audio itself.

@@ -116,6 +116,8 @@ Most modern internal synth processing can avoid obvious quantization noise, but 
 
 ## Buffer
 
+![Sampling and buffer-based audio streaming](../diagrams/sample-buffer-streaming.svg)
+
 A buffer is a block of consecutive samples processed together.
 
 Why it matters:
