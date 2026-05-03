@@ -2,6 +2,8 @@
 
 Digital synthesis depends on representing sound as numbers. This document explains the essential digital audio concepts needed to design a synthesizer.
 
+![Sampling and buffer-based audio streaming](../diagrams/sample-buffer-streaming.svg)
+
 ## Sound As Pressure Variation
 
 Sound is changing air pressure over time. A microphone converts pressure changes into an electrical signal. A speaker converts an electrical signal back into pressure changes. A digital synthesizer creates the signal directly as numbers, then an audio system converts those numbers into sound.

@@ -2,6 +2,8 @@
 
 Digital synthesizers process information at different rates depending on the precision and speed required. Understanding these rate distinctions is essential for designing a modulation system that sounds smooth, performs efficiently, and behaves predictably across different parameter types.
 
+![System threading and real-time boundary](../diagrams/realtime-boundary.svg)
+
 ## Audio Rate
 
 Audio-rate processing computes a new value for every individual sample in the output stream. At a sample rate of 48 kHz, this means 48000 calculations per second for each audio-rate process.
