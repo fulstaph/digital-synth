@@ -2,9 +2,7 @@ use std::f32::consts::TAU;
 
 #[derive(Debug, Clone)]
 pub struct SineGenerator {
-    frequency_hz: f32,
     amplitude: f32,
-    sample_rate: f32,
     phase_increment: f32,
     phase: f32,
 }
@@ -18,9 +16,7 @@ impl SineGenerator {
         };
 
         Self {
-            frequency_hz,
             amplitude,
-            sample_rate,
             phase_increment,
             phase: 0.0,
         }
@@ -33,10 +29,6 @@ impl SineGenerator {
     }
 
     pub fn next_sample(&mut self) -> f32 {
-        if self.frequency_hz <= 0.0 || self.sample_rate <= 0.0 {
-            return 0.0;
-        }
-
         let sample = self.phase.sin() * self.amplitude;
         self.phase = (self.phase + self.phase_increment).rem_euclid(TAU);
 

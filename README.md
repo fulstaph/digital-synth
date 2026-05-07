@@ -53,13 +53,29 @@ cargo clippy --all-targets --all-features -- -D warnings
 cargo test --all --locked
 ```
 
-Run the manual playback check:
+## Usage
+
+Prerequisites:
+
+- Install a stable Rust toolchain.
+- Use a machine with a working default audio output device for playback.
+- On Linux, CPAL commonly requires ALSA development headers such as `libasound2-dev`.
+
+Run the bounded playback check:
 
 ```bash
 cargo run -- --duration-seconds 2
 ```
 
-The playback command requires access to a local audio output device. Start with low monitor volume because continuous sine tones can be uncomfortable or unexpectedly loud.
+Run without a duration to keep playing until interrupted:
+
+```bash
+cargo run
+```
+
+The program currently plays a quiet 440 Hz sine wave. Start with low monitor volume because continuous sine tones can be uncomfortable or unexpectedly loud.
+
+`--duration-seconds` must be a finite positive number that can be represented by Rust's `Duration`. Invalid values such as `0`, negative numbers, `inf`, and overflow values exit with a usage error before audio playback starts.
 
 Current implementation boundaries:
 
