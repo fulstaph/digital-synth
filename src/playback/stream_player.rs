@@ -8,9 +8,6 @@ use crate::synthesis::sine_generator::SineGenerator;
 
 pub type AudioResult<T> = Result<T, Box<dyn Error + Send + Sync + 'static>>;
 
-const DEFAULT_FREQUENCY_HZ: f32 = 440.0;
-const DEFAULT_AMPLITUDE: f32 = 0.2;
-
 pub struct StreamPlayer {
     _stream: cpal::Stream,
     device_name: String,
@@ -20,10 +17,7 @@ pub struct StreamPlayer {
 
 impl StreamPlayer {
     pub fn play_default_sine() -> AudioResult<Self> {
-        Self::play(SineGeneratorSettings {
-            frequency_hz: DEFAULT_FREQUENCY_HZ,
-            amplitude: DEFAULT_AMPLITUDE,
-        })
+        Self::play(SineGeneratorSettings::default())
     }
 
     pub fn play(settings: SineGeneratorSettings) -> AudioResult<Self> {
@@ -111,10 +105,19 @@ fn is_supported_output_sample_format(sample_format: SampleFormat) -> bool {
     )
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct SineGeneratorSettings {
     pub frequency_hz: f32,
     pub amplitude: f32,
+}
+
+impl Default for SineGeneratorSettings {
+    fn default() -> Self {
+        Self {
+            frequency_hz: 440.0,
+            amplitude: 0.2,
+        }
+    }
 }
 
 fn build_output_stream<T>(

@@ -2,17 +2,16 @@ use std::process::ExitCode;
 use std::thread;
 use std::time::Duration;
 
+mod cli;
+
 use clap::Parser;
-use digital_synth::cli::CliConfig;
-use digital_synth::playback::stream_player::{SineGeneratorSettings, StreamPlayer};
+use cli::CliConfig;
+use digital_synth::prototype::PrototypePlaybackConfig;
 
 fn main() -> ExitCode {
-    let config = CliConfig::parse();
+    let config: PrototypePlaybackConfig = CliConfig::parse().into();
 
-    let player = match StreamPlayer::play(SineGeneratorSettings {
-        frequency_hz: config.frequency_hz,
-        amplitude: config.amplitude,
-    }) {
+    let player = match config.play() {
         Ok(player) => player,
         Err(error) => {
             eprintln!("failed to start audio stream: {error}");
@@ -29,10 +28,8 @@ fn main() -> ExitCode {
         player.channels()
     );
 
-    match config.duration_seconds {
-        Some(duration_seconds) => {
-            thread::sleep(Duration::from_secs_f64(duration_seconds));
-        }
+    match config.duration {
+        Some(duration) => thread::sleep(duration),
         None => loop {
             thread::sleep(Duration::from_secs(1));
         },

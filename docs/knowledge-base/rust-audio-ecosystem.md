@@ -116,6 +116,12 @@ Why clap fits the current prototype:
 
 Current role: use clap for the prototype CLI. Revisit only if binary size or compile time becomes a concrete problem.
 
+Boundary rule:
+
+- Clap should remain an adapter around user-facing command syntax, help text, and argument validation.
+- Playback behavior should use project-owned Rust configuration types, not CLI parser types.
+- Audio and synthesis modules should not depend on clap or assume the program was started from a command line.
+
 ## Realtime Messaging: RTRB
 
 [RTRB](https://docs.rs/rtrb/latest/rtrb/) is a realtime-safe single-producer single-consumer ring buffer. It allocates a fixed-capacity buffer at construction, then provides lock-free and wait-free read/write operations.

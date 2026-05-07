@@ -13,10 +13,11 @@ Delivered behavior:
 - A standalone Rust binary runs from `cargo run`.
 - CPAL opens the default output device.
 - A `StreamPlayer` owns the stream and keeps it alive.
+- A library-level prototype playback config separates playback intent from command-line parsing.
 - A temporary `SineGenerator` produces a continuous A440 tone.
 - The binary accepts `--duration-seconds N` for a bounded manual playback check.
 - The binary accepts `--frequency-hz HZ` and `--amplitude LEVEL` for simple control over the temporary sine tone.
-- Unit tests cover the sine generator, phase continuity, silence for non-positive frequency, channel duplication, sample format support, and CLI parsing.
+- Unit tests cover the sine generator, phase continuity, silence for non-positive frequency, channel duplication, sample format support, prototype playback settings, CLI parsing, and CLI-to-library configuration conversion.
 - CI runs formatting, clippy, and tests without requiring an audio device.
 
 Manual check:

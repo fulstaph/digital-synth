@@ -1,6 +1,7 @@
 use std::time::Duration;
 
 use clap::Parser;
+use digital_synth::prototype::PrototypePlaybackConfig;
 
 /// Play the current Digital Synth Rust prototype.
 ///
@@ -14,7 +15,7 @@ pub struct CliConfig {
     ///
     /// Omit this option to keep playing until the process is interrupted.
     #[arg(long, value_name = "SECONDS", allow_hyphen_values = true, value_parser = parse_duration_seconds)]
-    pub duration_seconds: Option<f64>,
+    pub duration_seconds: Option<Duration>,
 
     /// Oscillator frequency in hertz.
     #[arg(long, value_name = "HZ", default_value_t = 440.0, allow_hyphen_values = true, value_parser = parse_frequency_hz)]
@@ -27,23 +28,30 @@ pub struct CliConfig {
     pub amplitude: f32,
 }
 
-fn parse_duration_seconds(value: &str) -> Result<f64, String> {
+impl From<CliConfig> for PrototypePlaybackConfig {
+    fn from(config: CliConfig) -> Self {
+        Self {
+            duration: config.duration_seconds,
+            frequency_hz: config.frequency_hz,
+            amplitude: config.amplitude,
+        }
+    }
+}
+
+fn parse_duration_seconds(value: &str) -> Result<Duration, String> {
     let duration_seconds = value
         .parse::<f64>()
         .map_err(|_| format!("invalid duration seconds: {value}"))?;
 
     validate_duration_seconds(duration_seconds)?;
 
-    Ok(duration_seconds)
+    Duration::try_from_secs_f64(duration_seconds)
+        .map_err(|_| "duration seconds is too large".to_string())
 }
 
 fn validate_duration_seconds(duration_seconds: f64) -> Result<(), String> {
     if !duration_seconds.is_finite() || duration_seconds <= 0.0 {
         return Err("duration seconds must be finite and greater than 0".to_string());
-    }
-
-    if Duration::try_from_secs_f64(duration_seconds).is_err() {
-        return Err("duration seconds is too large".to_string());
     }
 
     Ok(())
@@ -85,7 +93,7 @@ mod tests {
 
         let config = CliConfig::try_parse_from(args).expect("duration flag should parse");
 
-        assert_eq!(config.duration_seconds, Some(2.5));
+        assert_eq!(config.duration_seconds, Some(Duration::from_millis(2500)));
     }
 
     #[test]
@@ -215,5 +223,25 @@ mod tests {
         assert!(help.contains("How long to play before exiting"));
         assert!(help.contains("Oscillator frequency in hertz"));
         assert!(help.contains("Output amplitude"));
+    }
+
+    #[test]
+    fn converts_to_library_playback_config() {
+        let cli_config = CliConfig {
+            duration_seconds: Some(Duration::from_millis(1500)),
+            frequency_hz: 330.0,
+            amplitude: 0.15,
+        };
+
+        let playback_config: digital_synth::prototype::PrototypePlaybackConfig = cli_config.into();
+
+        assert_eq!(
+            playback_config,
+            digital_synth::prototype::PrototypePlaybackConfig {
+                duration: Some(Duration::from_millis(1500)),
+                frequency_hz: 330.0,
+                amplitude: 0.15,
+            }
+        );
     }
 }

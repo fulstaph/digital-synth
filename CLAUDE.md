@@ -44,10 +44,12 @@ The repository now contains a small Rust 2024 crate named `digital-synth`.
 
 Current behavior:
 
-- `src/main.rs` parses the clap-based CLI and starts a standalone audio stream.
+- `src/main.rs` adapts the clap-based CLI into library playback configuration and manages process lifetime.
+- `src/cli.rs` owns command-line syntax, generated usage text, and argument validation.
+- `src/prototype.rs` owns the current prototype playback configuration and starts playback without depending on CLI concepts.
 - `src/playback/stream_player.rs` opens the default output device with CPAL, owns the stream, and writes mono generated samples to each output channel.
 - `src/synthesis/sine_generator.rs` generates a temporary sine tone using amplitude, phase increment, and phase state.
-- Unit tests cover CLI parsing, channel writing, sine amplitude bounds, phase continuity, and silence for non-positive frequencies.
+- Unit tests cover CLI parsing, CLI-to-library configuration conversion, prototype playback settings, channel writing, sine amplitude bounds, phase continuity, and silence for non-positive frequencies.
 - `.github/workflows/rust.yml` runs formatting, clippy, and unit tests.
 
 Useful commands:
@@ -97,6 +99,7 @@ The Rust source tree is a prototype, not the product design. The authoritative m
 When modifying Rust code:
 
 - Keep the audio callback realtime-conscious: no logging, blocking work, file I/O, allocation, or locks in the render loop.
+- Keep command-line parsing separate from playback behavior. CLI types can convert into library configuration, but playback and synthesis modules should not depend on `clap`.
 - Prefer small, deterministic units with tests before expanding musical behavior.
 - Keep runtime dependencies minimal and justify new crates in documentation.
 - Do not introduce plugin, UI, preset, or broad synthesis architecture decisions as side effects of prototype work.

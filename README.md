@@ -40,7 +40,9 @@ The repository contains a small Rust 2024 crate named `digital-synth`.
 
 Current implementation:
 
-- `src/main.rs` parses the clap-based CLI and starts playback.
+- `src/main.rs` adapts the clap-based CLI into library playback configuration and keeps the process alive.
+- `src/cli.rs` owns command-line syntax, help text, and user-input validation.
+- `src/prototype.rs` owns the current prototype playback configuration and starts playback without depending on CLI concepts.
 - `src/playback/stream_player.rs` opens the default output device with CPAL and keeps the audio stream alive.
 - `src/synthesis/sine_generator.rs` generates a temporary sine tone with amplitude, phase increment, and phase state.
 - `.github/workflows/rust.yml` runs Rust formatting, clippy, and tests.
@@ -99,6 +101,7 @@ Current implementation boundaries:
 
 - CPAL is used for audio output.
 - Clap is used for the prototype command-line interface.
+- CLI parsing is an adapter only; playback configuration and stream setup live in library modules.
 - No plugin format has been chosen.
 - No UI toolkit has been chosen.
 - No preset format has been chosen.

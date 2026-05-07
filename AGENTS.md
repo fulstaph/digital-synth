@@ -39,7 +39,9 @@ The implementation currently consists of:
 
 - `Cargo.toml` and `Cargo.lock` for a Rust 2024 crate named `digital-synth`.
 - `cpal` for audio output and `clap` for the prototype command-line interface.
-- `src/main.rs`, which parses the CLI and starts audio playback.
+- `src/main.rs`, which adapts the CLI into library playback configuration and manages process lifetime.
+- `src/cli.rs`, which owns command-line syntax, generated usage text, and argument validation.
+- `src/prototype.rs`, which owns the current prototype playback configuration and starts playback without depending on CLI concepts.
 - `src/playback/stream_player.rs`, which owns CPAL stream setup and duplicates mono generated samples across output channels.
 - `src/synthesis/sine_generator.rs`, which owns amplitude, phase increment, and phase for a temporary sine-wave source.
 - `.github/workflows/rust.yml`, which runs Rust formatting, clippy, and tests in CI.
@@ -122,6 +124,7 @@ Examples of unacceptable phrasing during the current phase:
 When changing Rust code:
 
 - Keep the audio callback small and realtime-conscious: no logging, allocation, blocking I/O, or lock acquisition in the render path.
+- Keep CLI parsing separate from playback behavior: command-line types may convert into library configuration, but playback and synthesis modules should not depend on `clap`.
 - Add tests for deterministic DSP behavior before or with behavior changes.
 - Keep runtime dependencies minimal and justify any new crate in documentation.
 - Run `cargo fmt --all -- --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test --all --locked` before completion.
