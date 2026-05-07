@@ -2,9 +2,9 @@
 
 ## Project Context
 
-Digital Synth is currently a documentation-first project for designing a digital synthesizer. The repository should develop a strong conceptual foundation before implementation begins. Treat all current work as research, architecture, and product design unless explicitly told otherwise.
+Digital Synth is currently a documentation-first project for designing a digital synthesizer. The repository should develop a strong conceptual foundation while maintaining a small Rust implementation spike that validates basic audio output.
 
-The project should not be narrowed to a specific technical stack yet. Avoid making assumptions about runtime, plugin format, user-interface framework, deployment target, or audio backend.
+The project should not be narrowed to a final technical stack yet. Rust, CPAL, and clap are present as the current prototype path, but plugin format, user-interface framework, deployment target, preset format, and final engine architecture remain open decisions.
 
 ## What This Project Is Trying To Become
 
@@ -31,12 +31,39 @@ Prioritize:
 
 Do not prioritize:
 
-- Implementation code.
-- Language-specific details.
-- Framework-specific APIs.
-- Dependency selection.
+- Broad implementation code outside the documented Rust prototype.
+- Treating language-specific details as product architecture.
+- Framework-specific APIs beyond the current CPAL stream-player spike.
+- Dependency selection before a documented need exists.
 - Build tooling.
 - Platform packaging.
+
+## Current Implementation
+
+The repository now contains a small Rust 2024 crate named `digital-synth`.
+
+Current behavior:
+
+- `src/main.rs` adapts the clap-based CLI into library playback configuration and manages process lifetime.
+- `src/cli.rs` owns command-line syntax, generated usage text, and argument validation.
+- `src/prototype.rs` owns the current prototype playback configuration and starts playback without depending on CLI concepts.
+- `src/playback/stream_player.rs` opens the default output device with CPAL, owns the stream, and writes mono generated samples to each output channel.
+- `src/synthesis/sine_generator.rs` generates a temporary sine tone using amplitude, phase increment, and phase state.
+- Unit tests cover CLI parsing, CLI-to-library configuration conversion, prototype playback settings, channel writing, sine amplitude bounds, phase continuity, and silence for non-positive frequencies.
+- `.github/workflows/rust.yml` runs formatting, clippy, and unit tests.
+
+Useful commands:
+
+```bash
+cargo fmt --all -- --check
+cargo clippy --all-targets --all-features -- -D warnings
+cargo test --all --locked
+cargo run -- --help
+cargo run -- --duration-seconds 2
+cargo run -- --frequency-hz 220 --amplitude 0.1 --duration-seconds 2
+```
+
+The playback command requires a local audio device and should not be used as a CI requirement.
 
 ## Important Design Principles
 
@@ -65,5 +92,14 @@ When expanding the knowledge base, prefer this shape:
 
 ## Project Boundary
 
-This repository may contain placeholder source files, but those files are not the product design. The authoritative material for the current phase is the documentation.
+The Rust source tree is a prototype, not the product design. The authoritative material for long-term architecture remains the documentation. If prototype behavior and conceptual docs diverge, update the docs or explicitly identify the prototype as temporary.
 
+## Rust Prototype Rules
+
+When modifying Rust code:
+
+- Keep the audio callback realtime-conscious: no logging, blocking work, file I/O, allocation, or locks in the render loop.
+- Keep command-line parsing separate from playback behavior. CLI types can convert into library configuration, but playback and synthesis modules should not depend on `clap`.
+- Prefer small, deterministic units with tests before expanding musical behavior.
+- Keep runtime dependencies minimal and justify new crates in documentation.
+- Do not introduce plugin, UI, preset, or broad synthesis architecture decisions as side effects of prototype work.
