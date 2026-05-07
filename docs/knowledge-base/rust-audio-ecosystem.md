@@ -2,7 +2,7 @@
 
 This document records Rust audio libraries that are relevant to the first implementation spike. It is not a final stack decision for Digital Synth. The purpose is to explain which crates are useful for learning, prototyping, and later product decisions.
 
-The first Rust implementation intentionally uses only CPAL. Other libraries remain candidates for later stages when the project has a concrete need for their scope.
+The first Rust implementation intentionally keeps dependencies narrow. CPAL handles audio output, and clap handles the small command-line interface. Other libraries remain candidates for later stages when the project has a concrete need for their scope.
 
 ## Selection Principles
 
@@ -97,6 +97,25 @@ Why it is deferred:
 
 Current role: likely candidate for the first MIDI prototype.
 
+## Command-Line Interface: Clap, Argh, Bpaf, Pico-Args, And Lexopt
+
+Rust has several useful CLI parser crates:
+
+- [Clap](https://docs.rs/clap/latest/clap/) is a full-featured command-line parser with derive support, generated help, version output, validation, shell completion support, and strong documentation.
+- [Argh](https://docs.rs/argh/latest/argh/) is derive-based and optimized for smaller command-line tools.
+- [Bpaf](https://docs.rs/bpaf/latest/bpaf/) supports both derive and parser-combinator styles for more complex parsing needs.
+- [Pico-args](https://docs.rs/pico-args/latest/pico_args/) is small and direct, but leaves help text and more user-facing behavior to the application.
+- [Lexopt](https://docs.rs/lexopt/latest/lexopt/) is a simple parser stream for projects that want to own most parsing behavior manually.
+
+Why clap fits the current prototype:
+
+- The prototype needs visible usage text now that it has user-facing controls.
+- Field doc comments can become generated `--help` text.
+- Validation for frequency, amplitude, and duration can stay close to the argument definitions.
+- The extra dependency is justified by removing the hand-written parser and producing a more predictable CLI surface.
+
+Current role: use clap for the prototype CLI. Revisit only if binary size or compile time becomes a concrete problem.
+
 ## Realtime Messaging: RTRB
 
 [RTRB](https://docs.rs/rtrb/latest/rtrb/) is a realtime-safe single-producer single-consumer ring buffer. It allocates a fixed-capacity buffer at construction, then provides lock-free and wait-free read/write operations.
@@ -162,7 +181,7 @@ Current role: revisit after the standalone engine reaches note-driven mono synth
 
 ## Recommendation
 
-Use CPAL only for the first Rust implementation spike. The next dependency decision should be made only when the prototype reaches a documented need:
+Keep dependencies narrow during the Rust implementation spike. The next dependency decision should be made only when the prototype reaches a documented need:
 
 - Add `midir` when MIDI input begins.
 - Add `rtrb` or an equivalent when events must cross into the audio callback.

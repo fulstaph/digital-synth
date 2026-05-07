@@ -1,22 +1,18 @@
-use std::env;
 use std::process::ExitCode;
 use std::thread;
 use std::time::Duration;
 
+use clap::Parser;
 use digital_synth::cli::CliConfig;
-use digital_synth::playback::stream_player::StreamPlayer;
+use digital_synth::playback::stream_player::{SineGeneratorSettings, StreamPlayer};
 
 fn main() -> ExitCode {
-    let config = match CliConfig::parse(env::args()) {
-        Ok(config) => config,
-        Err(error) => {
-            eprintln!("{error}");
-            eprintln!("usage: digital-synth [--duration-seconds N]");
-            return ExitCode::from(2);
-        }
-    };
+    let config = CliConfig::parse();
 
-    let player = match StreamPlayer::play_default_sine() {
+    let player = match StreamPlayer::play(SineGeneratorSettings {
+        frequency_hz: config.frequency_hz,
+        amplitude: config.amplitude,
+    }) {
         Ok(player) => player,
         Err(error) => {
             eprintln!("failed to start audio stream: {error}");
@@ -25,7 +21,9 @@ fn main() -> ExitCode {
     };
 
     eprintln!(
-        "playing 440 Hz sine wave on {} at {} Hz, {} channel(s)",
+        "playing {} Hz sine wave at amplitude {} on {} at {} Hz, {} channel(s)",
+        config.frequency_hz,
+        config.amplitude,
         player.device_name(),
         player.sample_rate_hz(),
         player.channels()

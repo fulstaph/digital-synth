@@ -38,16 +38,16 @@ Avoid for now:
 The implementation currently consists of:
 
 - `Cargo.toml` and `Cargo.lock` for a Rust 2024 crate named `digital-synth`.
-- `cpal` as the only runtime dependency.
-- `src/main.rs`, which parses an optional `--duration-seconds N` flag and starts audio playback.
+- `cpal` for audio output and `clap` for the prototype command-line interface.
+- `src/main.rs`, which parses the CLI and starts audio playback.
 - `src/playback/stream_player.rs`, which owns CPAL stream setup and duplicates mono generated samples across output channels.
-- `src/synthesis/sine_generator.rs`, which owns frequency, amplitude, sample rate, and phase for a temporary sine-wave source.
+- `src/synthesis/sine_generator.rs`, which owns amplitude, phase increment, and phase for a temporary sine-wave source.
 - `.github/workflows/rust.yml`, which runs Rust formatting, clippy, and tests in CI.
 
 The current prototype can be manually checked with:
 
 ```bash
-cargo run -- --duration-seconds 2
+cargo run -- --frequency-hz 220 --amplitude 0.1 --duration-seconds 2
 ```
 
 This command requires access to a local audio output device. CI should not require live audio playback.

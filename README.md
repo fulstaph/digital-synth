@@ -40,9 +40,9 @@ The repository contains a small Rust 2024 crate named `digital-synth`.
 
 Current implementation:
 
-- `src/main.rs` parses an optional `--duration-seconds N` flag and starts playback.
+- `src/main.rs` parses the clap-based CLI and starts playback.
 - `src/playback/stream_player.rs` opens the default output device with CPAL and keeps the audio stream alive.
-- `src/synthesis/sine_generator.rs` generates a temporary sine tone with explicit frequency, amplitude, sample-rate, and phase state.
+- `src/synthesis/sine_generator.rs` generates a temporary sine tone with amplitude, phase increment, and phase state.
 - `.github/workflows/rust.yml` runs Rust formatting, clippy, and tests.
 
 Run the automated checks:
@@ -61,10 +61,22 @@ Prerequisites:
 - Use a machine with a working default audio output device for playback.
 - On Linux, CPAL commonly requires ALSA development headers such as `libasound2-dev`.
 
+Show generated help:
+
+```bash
+cargo run -- --help
+```
+
 Run the bounded playback check:
 
 ```bash
 cargo run -- --duration-seconds 2
+```
+
+Change the temporary sine tone:
+
+```bash
+cargo run -- --frequency-hz 220 --amplitude 0.1 --duration-seconds 2
 ```
 
 Run without a duration to keep playing until interrupted:
@@ -73,13 +85,20 @@ Run without a duration to keep playing until interrupted:
 cargo run
 ```
 
-The program currently plays a quiet 440 Hz sine wave. Start with low monitor volume because continuous sine tones can be uncomfortable or unexpectedly loud.
+By default, the program plays a quiet 440 Hz sine wave at amplitude `0.2`. Start with low monitor volume because continuous sine tones can be uncomfortable or unexpectedly loud.
 
-`--duration-seconds` must be a finite positive number that can be represented by Rust's `Duration`. Invalid values such as `0`, negative numbers, `inf`, and overflow values exit with a usage error before audio playback starts.
+CLI options:
+
+- `--duration-seconds <SECONDS>`: finite positive duration. Omit it to keep playing until interrupted.
+- `--frequency-hz <HZ>`: finite positive oscillator frequency. Default: `440`.
+- `--amplitude <LEVEL>`: finite output amplitude from `0.0` to `1.0`. Default: `0.2`.
+
+Invalid values such as zero or negative durations, `inf`, frequency `0`, and amplitude values above `1.0` exit with a usage error before audio playback starts.
 
 Current implementation boundaries:
 
-- CPAL is the only runtime dependency.
+- CPAL is used for audio output.
+- Clap is used for the prototype command-line interface.
 - No plugin format has been chosen.
 - No UI toolkit has been chosen.
 - No preset format has been chosen.

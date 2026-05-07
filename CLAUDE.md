@@ -4,7 +4,7 @@
 
 Digital Synth is currently a documentation-first project for designing a digital synthesizer. The repository should develop a strong conceptual foundation while maintaining a small Rust implementation spike that validates basic audio output.
 
-The project should not be narrowed to a final technical stack yet. Rust and CPAL are present as the current prototype path, but plugin format, user-interface framework, deployment target, preset format, and final engine architecture remain open decisions.
+The project should not be narrowed to a final technical stack yet. Rust, CPAL, and clap are present as the current prototype path, but plugin format, user-interface framework, deployment target, preset format, and final engine architecture remain open decisions.
 
 ## What This Project Is Trying To Become
 
@@ -44,9 +44,9 @@ The repository now contains a small Rust 2024 crate named `digital-synth`.
 
 Current behavior:
 
-- `src/main.rs` parses `--duration-seconds N` and starts a standalone audio stream.
+- `src/main.rs` parses the clap-based CLI and starts a standalone audio stream.
 - `src/playback/stream_player.rs` opens the default output device with CPAL, owns the stream, and writes mono generated samples to each output channel.
-- `src/synthesis/sine_generator.rs` generates a temporary 440 Hz sine tone using frequency, amplitude, sample rate, and phase state.
+- `src/synthesis/sine_generator.rs` generates a temporary sine tone using amplitude, phase increment, and phase state.
 - Unit tests cover CLI parsing, channel writing, sine amplitude bounds, phase continuity, and silence for non-positive frequencies.
 - `.github/workflows/rust.yml` runs formatting, clippy, and unit tests.
 
@@ -56,7 +56,9 @@ Useful commands:
 cargo fmt --all -- --check
 cargo clippy --all-targets --all-features -- -D warnings
 cargo test --all --locked
+cargo run -- --help
 cargo run -- --duration-seconds 2
+cargo run -- --frequency-hz 220 --amplitude 0.1 --duration-seconds 2
 ```
 
 The playback command requires a local audio device and should not be used as a CI requirement.
@@ -96,5 +98,5 @@ When modifying Rust code:
 
 - Keep the audio callback realtime-conscious: no logging, blocking work, file I/O, allocation, or locks in the render loop.
 - Prefer small, deterministic units with tests before expanding musical behavior.
-- Keep CPAL as the only runtime dependency until the next documented need justifies another crate.
+- Keep runtime dependencies minimal and justify new crates in documentation.
 - Do not introduce plugin, UI, preset, or broad synthesis architecture decisions as side effects of prototype work.

@@ -15,13 +15,20 @@ Delivered behavior:
 - A `StreamPlayer` owns the stream and keeps it alive.
 - A temporary `SineGenerator` produces a continuous A440 tone.
 - The binary accepts `--duration-seconds N` for a bounded manual playback check.
-- Unit tests cover the sine generator, phase continuity, silence for non-positive frequency, channel duplication, and CLI parsing.
+- The binary accepts `--frequency-hz HZ` and `--amplitude LEVEL` for simple control over the temporary sine tone.
+- Unit tests cover the sine generator, phase continuity, silence for non-positive frequency, channel duplication, sample format support, and CLI parsing.
 - CI runs formatting, clippy, and tests without requiring an audio device.
 
 Manual check:
 
 ```bash
 cargo run -- --duration-seconds 2
+```
+
+Custom tone check:
+
+```bash
+cargo run -- --frequency-hz 220 --amplitude 0.1 --duration-seconds 2
 ```
 
 Start with low monitor volume. A continuous sine tone is simple but can still be uncomfortable or unexpectedly loud.

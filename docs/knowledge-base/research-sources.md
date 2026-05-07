@@ -81,11 +81,16 @@ Plugin formats are future decisions, not current commitments. These sources are 
 - RealFFT documentation: https://docs.rs/realfft/latest/realfft/
 - NIH-plug repository: https://github.com/robbert-vdh/nih-plug
 - Clack plugin documentation: https://docs.rs/clack-plugin/latest/clack_plugin/
+- Clap documentation: https://docs.rs/clap/latest/clap/
+- Argh documentation: https://docs.rs/argh/latest/argh/
+- Bpaf documentation: https://docs.rs/bpaf/latest/bpaf/
+- Pico-args documentation: https://docs.rs/pico-args/latest/pico_args/
+- Lexopt documentation: https://docs.rs/lexopt/latest/lexopt/
 - Kwarf, "Writing a CLAP synthesizer in Rust - Part 1": https://kwarf.com/2024/07/writing-a-clap-synthesizer-in-rust-part-1/
 
 Why these matter:
 
-These references support the first Rust implementation spike. They should not be read as final product stack decisions. CPAL is the first dependency because it matches the stream-player goal from Skiles Part 1. The other Rust crates are documented so later dependency decisions can be tied to concrete project needs rather than added speculatively.
+These references support the first Rust implementation spike. They should not be read as final product stack decisions. CPAL is used because it matches the stream-player goal from Skiles Part 1. Clap is used because the prototype now has a user-facing command-line interface. The other Rust crates are documented so later dependency decisions can be tied to concrete project needs rather than added speculatively.
 
 ## Anti-Aliasing And Oscillator Quality
 
