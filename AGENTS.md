@@ -2,13 +2,15 @@
 
 ## Project Purpose
 
-This repository is for designing a programmable digital synthesizer from first principles. The current phase is documentation, research, and conceptual architecture. Implementation details are intentionally deferred.
+This repository is for designing a programmable digital synthesizer from first principles. The project remains documentation-first, but it now also contains a small Rust implementation spike that proves basic audio output and supports future design work.
 
 Agents working in this repository should treat the project as a music-technology design project, not as a generic software scaffold. The important work at this stage is to clarify synthesis concepts, define behavior, document musical goals, and preserve architectural choices that will survive future implementation decisions.
 
 ## Current Phase
 
-The project is in a pre-stack, pre-implementation phase.
+The project is in a documentation-first phase with one narrow implementation prototype.
+
+The current Rust code is a learning and validation spike, not the final product architecture. It opens the default audio output device with CPAL and plays a quiet 440 Hz sine wave. This is equivalent to the first stream-player step in the referenced synthesizer tutorial path.
 
 Allowed work:
 
@@ -19,15 +21,36 @@ Allowed work:
 - Clarify product goals and development stages.
 - Improve project guidance files.
 - Add diagrams or explanatory prose when useful.
+- Improve the current Rust prototype when the work directly supports the documented implementation spike.
+- Add focused tests and CI checks for existing Rust behavior.
 
 Avoid for now:
 
-- Choosing a programming language or framework.
+- Treating Rust, CPAL, or the current source layout as final product decisions.
 - Choosing a plugin format.
 - Choosing a UI toolkit.
-- Writing implementation code.
-- Adding dependencies.
-- Tying architecture to the placeholder source tree.
+- Adding broad implementation features before they are documented.
+- Adding dependencies speculatively.
+- Tying the conceptual architecture to the current prototype source tree.
+
+## Current Implementation Snapshot
+
+The implementation currently consists of:
+
+- `Cargo.toml` and `Cargo.lock` for a Rust 2024 crate named `digital-synth`.
+- `cpal` as the only runtime dependency.
+- `src/main.rs`, which parses an optional `--duration-seconds N` flag and starts audio playback.
+- `src/playback/stream_player.rs`, which owns CPAL stream setup and duplicates mono generated samples across output channels.
+- `src/synthesis/sine_generator.rs`, which owns frequency, amplitude, sample rate, and phase for a temporary sine-wave source.
+- `.github/workflows/rust.yml`, which runs Rust formatting, clippy, and tests in CI.
+
+The current prototype can be manually checked with:
+
+```bash
+cargo run -- --duration-seconds 2
+```
+
+This command requires access to a local audio output device. CI should not require live audio playback.
 
 ## Documentation Standards
 
@@ -77,19 +100,32 @@ When adding a new synthesis topic, include:
 
 ## Stack Neutrality
 
-Do not introduce a technical stack into project guidance files yet. If a technical option must be discussed, frame it as a future decision area rather than a chosen path.
+Do not present the current Rust prototype as the final technical stack. Rust and CPAL are acceptable to discuss as the current implementation spike. Plugin format, UI framework, distribution target, preset format, and final audio architecture remain future decisions.
 
 Examples of acceptable phrasing:
 
 - "The future implementation should provide..."
 - "A later stack decision must account for..."
 - "The architecture should allow..."
+- "The current Rust prototype demonstrates..."
+- "The CPAL stream player is a temporary standalone validation step..."
 
 Examples of unacceptable phrasing during the current phase:
 
 - "The synth will be built with..."
 - "Use this framework for..."
 - "The plugin format is..."
+- "The current prototype source tree is the final engine architecture..."
+
+## Rust Prototype Standards
+
+When changing Rust code:
+
+- Keep the audio callback small and realtime-conscious: no logging, allocation, blocking I/O, or lock acquisition in the render path.
+- Add tests for deterministic DSP behavior before or with behavior changes.
+- Keep runtime dependencies minimal and justify any new crate in documentation.
+- Run `cargo fmt --all -- --check`, `cargo clippy --all-targets --all-features -- -D warnings`, and `cargo test --all --locked` before completion.
+- Preserve the distinction between prototype mechanics and conceptual architecture.
 
 ## Completion Criteria For Documentation Changes
 
@@ -101,4 +137,3 @@ A documentation change is useful when it improves one of these areas:
 - A future implementation choice becomes less ambiguous.
 - A musical feature has clearer expected behavior.
 - A tradeoff is documented instead of hidden.
-
