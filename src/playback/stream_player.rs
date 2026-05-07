@@ -2,7 +2,7 @@ use std::error::Error;
 use std::io;
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
-use cpal::{FromSample, SampleFormat, SizedSample};
+use cpal::{FromSample, I24, SampleFormat, SizedSample, U24};
 
 use crate::synthesis::sine_generator::SineGenerator;
 
@@ -46,18 +46,29 @@ impl StreamPlayer {
             sample_rate_hz as f32,
         );
 
+        if !is_supported_output_sample_format(sample_format) {
+            return Err(io::Error::other(format!(
+                "unsupported output sample format: {sample_format}"
+            ))
+            .into());
+        }
+
         let stream = match sample_format {
-            SampleFormat::F32 => build_output_stream::<f32>(&device, &stream_config, generator)?,
-            SampleFormat::F64 => build_output_stream::<f64>(&device, &stream_config, generator)?,
-            SampleFormat::I16 => build_output_stream::<i16>(&device, &stream_config, generator)?,
-            SampleFormat::U16 => build_output_stream::<u16>(&device, &stream_config, generator)?,
-            unsupported => {
-                return Err(io::Error::other(format!(
-                    "unsupported output sample format: {unsupported}"
-                ))
-                .into());
-            }
+            SampleFormat::I8 => build_output_stream::<i8>(&device, &stream_config, generator),
+            SampleFormat::I16 => build_output_stream::<i16>(&device, &stream_config, generator),
+            SampleFormat::I24 => build_output_stream::<I24>(&device, &stream_config, generator),
+            SampleFormat::I32 => build_output_stream::<i32>(&device, &stream_config, generator),
+            SampleFormat::I64 => build_output_stream::<i64>(&device, &stream_config, generator),
+            SampleFormat::U8 => build_output_stream::<u8>(&device, &stream_config, generator),
+            SampleFormat::U16 => build_output_stream::<u16>(&device, &stream_config, generator),
+            SampleFormat::U24 => build_output_stream::<U24>(&device, &stream_config, generator),
+            SampleFormat::U32 => build_output_stream::<u32>(&device, &stream_config, generator),
+            SampleFormat::U64 => build_output_stream::<u64>(&device, &stream_config, generator),
+            SampleFormat::F32 => build_output_stream::<f32>(&device, &stream_config, generator),
+            SampleFormat::F64 => build_output_stream::<f64>(&device, &stream_config, generator),
+            _ => unreachable!("unsupported sample formats are rejected before stream creation"),
         };
+        let stream = stream?;
 
         stream.play()?;
 
@@ -80,6 +91,24 @@ impl StreamPlayer {
     pub fn channels(&self) -> u16 {
         self.channels
     }
+}
+
+fn is_supported_output_sample_format(sample_format: SampleFormat) -> bool {
+    matches!(
+        sample_format,
+        SampleFormat::I8
+            | SampleFormat::I16
+            | SampleFormat::I24
+            | SampleFormat::I32
+            | SampleFormat::I64
+            | SampleFormat::U8
+            | SampleFormat::U16
+            | SampleFormat::U24
+            | SampleFormat::U32
+            | SampleFormat::U64
+            | SampleFormat::F32
+            | SampleFormat::F64
+    )
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -114,33 +143,22 @@ fn write_sine_to_stream<T>(output: &mut [T], channels: usize, generator: &mut Si
 where
     T: SizedSample + FromSample<f32>,
 {
+    write_mono_to_channels(output, channels, || generator.next_sample());
+}
+
+pub fn write_mono_to_channels<T, F>(output: &mut [T], channels: usize, mut next_mono_sample: F)
+where
+    T: SizedSample + FromSample<f32>,
+    F: FnMut() -> f32,
+{
     if channels == 0 {
-        let silence = T::from_sample(0.0);
-        output.fill(silence);
+        output.fill(T::from_sample(0.0));
         return;
     }
 
     for frame in output.chunks_mut(channels) {
-        let mut sample = [0.0];
-        generator.fill_mono(&mut sample);
-        let converted_sample = T::from_sample(sample[0]);
+        let mono_sample = T::from_sample(next_mono_sample());
 
-        for channel_sample in frame {
-            *channel_sample = converted_sample;
-        }
-    }
-}
-
-pub fn write_mono_to_channels<I>(output: &mut [f32], channels: usize, mono_samples: I)
-where
-    I: IntoIterator<Item = f32>,
-{
-    if channels == 0 {
-        output.fill(0.0);
-        return;
-    }
-
-    for (frame, mono_sample) in output.chunks_mut(channels).zip(mono_samples) {
         for sample in frame {
             *sample = mono_sample;
         }
@@ -154,9 +172,10 @@ mod tests {
     #[test]
     fn writes_mono_samples_to_each_output_channel() {
         let mono_samples = [0.1, -0.2];
-        let mut output = [0.0; 4];
+        let mut mono_samples = mono_samples.into_iter();
+        let mut output = [0.0_f32; 4];
 
-        write_mono_to_channels(&mut output, 2, mono_samples);
+        write_mono_to_channels(&mut output, 2, || mono_samples.next().unwrap_or(0.0));
 
         assert_eq!(output, [0.1, 0.1, -0.2, -0.2]);
     }
@@ -164,10 +183,52 @@ mod tests {
     #[test]
     fn treats_zero_channels_as_silence() {
         let mono_samples = [0.1, -0.2];
-        let mut output = [1.0; 4];
+        let mut mono_samples = mono_samples.into_iter();
+        let mut output = [1.0_f32; 4];
 
-        write_mono_to_channels(&mut output, 0, mono_samples);
+        write_mono_to_channels(&mut output, 0, || mono_samples.next().unwrap_or(0.0));
 
         assert_eq!(output, [0.0; 4]);
+    }
+
+    #[test]
+    fn supports_all_non_dsd_pcm_sample_formats() {
+        let supported_formats = [
+            SampleFormat::I8,
+            SampleFormat::I16,
+            SampleFormat::I24,
+            SampleFormat::I32,
+            SampleFormat::I64,
+            SampleFormat::U8,
+            SampleFormat::U16,
+            SampleFormat::U24,
+            SampleFormat::U32,
+            SampleFormat::U64,
+            SampleFormat::F32,
+            SampleFormat::F64,
+        ];
+
+        for sample_format in supported_formats {
+            assert!(
+                is_supported_output_sample_format(sample_format),
+                "{sample_format} should be supported"
+            );
+        }
+    }
+
+    #[test]
+    fn rejects_dsd_sample_formats() {
+        let unsupported_formats = [
+            SampleFormat::DsdU8,
+            SampleFormat::DsdU16,
+            SampleFormat::DsdU32,
+        ];
+
+        for sample_format in unsupported_formats {
+            assert!(
+                !is_supported_output_sample_format(sample_format),
+                "{sample_format} should be unsupported"
+            );
+        }
     }
 }

@@ -1,35 +1,46 @@
-const TWO_PI: f32 = std::f32::consts::TAU;
+use std::f32::consts::TAU;
 
 #[derive(Debug, Clone)]
 pub struct SineGenerator {
     frequency_hz: f32,
     amplitude: f32,
     sample_rate: f32,
+    phase_increment: f32,
     phase: f32,
 }
 
 impl SineGenerator {
     pub fn new(frequency_hz: f32, amplitude: f32, sample_rate: f32) -> Self {
+        let phase_increment = if frequency_hz > 0.0 && sample_rate > 0.0 {
+            TAU * frequency_hz / sample_rate
+        } else {
+            0.0
+        };
+
         Self {
             frequency_hz,
             amplitude,
             sample_rate,
+            phase_increment,
             phase: 0.0,
         }
     }
 
     pub fn fill_mono(&mut self, output: &mut [f32]) {
-        if self.frequency_hz <= 0.0 || self.sample_rate <= 0.0 {
-            output.fill(0.0);
-            return;
-        }
-
-        let phase_increment = TWO_PI * self.frequency_hz / self.sample_rate;
-
         for sample in output {
-            *sample = self.phase.sin() * self.amplitude;
-            self.phase = (self.phase + phase_increment).rem_euclid(TWO_PI);
+            *sample = self.next_sample();
         }
+    }
+
+    pub fn next_sample(&mut self) -> f32 {
+        if self.frequency_hz <= 0.0 || self.sample_rate <= 0.0 {
+            return 0.0;
+        }
+
+        let sample = self.phase.sin() * self.amplitude;
+        self.phase = (self.phase + self.phase_increment).rem_euclid(TAU);
+
+        sample
     }
 }
 
@@ -44,7 +55,6 @@ mod tests {
 
         generator.fill_mono(&mut output);
 
-        assert_eq!(output.len(), 128);
         assert!(output.iter().any(|sample| *sample != 0.0));
     }
 

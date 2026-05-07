@@ -32,10 +32,9 @@ fn main() -> ExitCode {
     );
 
     match config.duration_seconds {
-        Some(duration_seconds) if duration_seconds > 0.0 => {
+        Some(duration_seconds) => {
             thread::sleep(Duration::from_secs_f64(duration_seconds));
         }
-        Some(_) => {}
         None => loop {
             thread::sleep(Duration::from_secs(1));
         },
