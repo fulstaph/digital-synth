@@ -61,10 +61,12 @@ Start here:
 
 24. [Glossary](knowledge-base/glossary.md)
 25. [Research sources](knowledge-base/research-sources.md)
+26. [Rust audio ecosystem](knowledge-base/rust-audio-ecosystem.md)
 
 ### Project Planning
 
-26. [Development roadmap](development-roadmap.md)
+27. [Development roadmap](development-roadmap.md)
+28. [Rust prototype next steps](implementation/rust-prototype-next-steps.md)
 
 ## Knowledge Base Goals
 
@@ -106,4 +108,3 @@ Every major topic should answer:
 - Which controls does a musician expect?
 - What can go wrong?
 - What should Digital Synth design for?
-

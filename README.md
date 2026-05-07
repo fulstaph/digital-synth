@@ -189,6 +189,8 @@ Stage 8: Productization decisions
 - [Convolution concepts](docs/knowledge-base/convolution-concepts.md)
 - [Glossary](docs/knowledge-base/glossary.md)
 - [Research sources](docs/knowledge-base/research-sources.md)
+- [Rust audio ecosystem](docs/knowledge-base/rust-audio-ecosystem.md)
+- [Rust prototype next steps](docs/implementation/rust-prototype-next-steps.md)
 
 ## Current Boundaries
 
@@ -201,4 +203,3 @@ For now:
 - Do not optimize for a specific runtime, plugin format, UI framework, or deployment target.
 - Do not treat the current placeholder program as the product architecture.
 - Do keep documentation specific, practical, and musically grounded.
-
